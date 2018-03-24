@@ -31,14 +31,14 @@ public class TextInputFieldScript : MonoBehaviour, IPaperComponent
         // Check for the selected type
         switch (field)
         {
-            case PostItGenerator.Field.DATE:
-                newName = PostItGenerator.Field.DATE.ToString(); break;
-            case PostItGenerator.Field.LASTNAME:
-                newName = PostItGenerator.Field.LASTNAME.ToString(); break;
-            case PostItGenerator.Field.NAME:
-                newName = PostItGenerator.Field.NAME.ToString(); break;
-            case PostItGenerator.Field.EMAIL:
-                newName = PostItGenerator.Field.EMAIL.ToString(); break;
+            case PostItGenerator.Field.Date:
+                newName = PostItGenerator.Field.Date.ToString(); break;
+            case PostItGenerator.Field.LastName:
+                newName = PostItGenerator.Field.LastName.ToString(); break;
+            case PostItGenerator.Field.Name:
+                newName = PostItGenerator.Field.Name.ToString(); break;
+            case PostItGenerator.Field.Email:
+                newName = PostItGenerator.Field.Email.ToString(); break;
             // TODO: Add more field types here
         }
         // If the selected type diverges from the current one, update

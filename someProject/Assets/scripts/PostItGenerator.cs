@@ -6,7 +6,7 @@ using Eppy;
 
 public class PostItGenerator : MonoBehaviour
 {
-    public enum Field { NAME, LASTNAME, DATE, EMAIL };
+    public enum Field { Name, LastName, Date, Email }
 
     public string[] names = { "Eric", "Justin", "Evan", "Michael",
         "Bogdan", "Goku", "Krilin", "Bulma", "Piccolo", "Vegeta", "Majin",
