@@ -175,7 +175,6 @@
 -define:UNITY_EDITOR_LINUX
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
-'Assets/CameraShake.cs'
 'Assets/scripts/AudioManager.cs'
 'Assets/scripts/AutoDestroy.cs'
 'Assets/scripts/CameraShake.cs'
