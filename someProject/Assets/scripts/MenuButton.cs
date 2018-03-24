@@ -18,7 +18,6 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		Color col = new Color();
-//		text.color = Color.red;
 		ColorUtility.TryParseHtmlString("#D02222FF", out col);
 		text.color = col;
 	}
