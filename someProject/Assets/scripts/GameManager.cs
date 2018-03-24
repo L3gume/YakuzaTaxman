@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
                     currentSong = "hard";
                 }
 				ScoreText.text = "Score: " + _score;
+
+				_timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
 			} else { //User submitted a form which was incorrect
 				// Decrement lives by one
 				_livesRemaining--;

@@ -105,7 +105,7 @@ public class PostItGenerator
                 {
                     int maxIndex = (int)(emails.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
                     int minIndex = (int)(emails.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
-                    answer = emails[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    answer = generateEmail(names[UnityEngine.Random.Range(minIndex, maxIndex)], lastNames[UnityEngine.Random.Range(minIndex, maxIndex)]);
                     return new Tuple<Field, string>(Field.Email, answer);
                 }
             case Field.Income:
@@ -120,6 +120,62 @@ public class PostItGenerator
                 }
         }
         return null;
+    }
+    
+    //Gererate an email from first and last name
+    private String generateEmail(String firstName, String lastName)
+    {
+        //string to be constructed
+        String outputEmail = String.Empty;
+
+        //variable used to introduce randomness
+        int arbitror = UnityEngine.Random.Range(0, 2);
+
+        //generate a random email scheme including "firstname.lastname" or "lastname<fisrtNameFirstLetter>"
+        switch (arbitror)
+        {
+            case 0:
+                outputEmail = firstName + "." + lastName;
+                break;
+            case 1:
+                outputEmail = lastName + firstName.ToCharArray()[0];
+                break;
+            default:
+                break;
+        }
+
+        arbitror = UnityEngine.Random.Range(0, 4);
+        
+        //generate randomness for having a number or not after the email
+        if (arbitror == 0)
+        {
+            outputEmail += UnityEngine.Random.Range(0, 100);
+        }
+
+        outputEmail += "@";
+        
+        arbitror = UnityEngine.Random.Range(0, 4);
+
+        //generate randomness for the domain of the email
+        switch (arbitror)
+        {
+            case 0:
+                outputEmail += "gmail.com";
+                break;
+            case 1:
+                outputEmail += "mail.mcgill.ca";
+                break;
+            case 2:
+                outputEmail += "outlook.com";
+                break;
+            case 3:
+                outputEmail += "hotmail.com";
+                break;
+            default:
+                break;
+        }
+
+        return outputEmail;
     }
 
     //difficulty caps at maxDifficulty
