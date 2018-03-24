@@ -9,7 +9,7 @@ public class PostItGenerator
 {
 
     // difficulty caps depending on number of turns
-    public int maxDifficulty = 100;
+    public int maxDifficulty = 10;
 
     // fields
     public enum Field
@@ -98,7 +98,7 @@ public class PostItGenerator
     /// 
     public List<Tuple<Field, string>> GeneratePostIt(int currentTurn){
         // generate random number of types of field
-        int numberOfTypes = UnityEngine.Random.Range(1, ((int)(System.Enum.GetNames(typeof(Field)).Length * difficultyMultiplier(currentTurn) + 1)) % System.Enum.GetNames(typeof(Field)).Length);
+        int numberOfTypes = UnityEngine.Random.Range(1, ((int)(System.Enum.GetNames(typeof(Field)).Length * difficultyMultiplier(currentTurn))));
 
         // generate unique set of Fields
         var fields = new List<Field>();
@@ -133,14 +133,14 @@ public class PostItGenerator
                 {
                     int maxIndex = (int)(names.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
                     int minIndex = (int)(names.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
-                    answer = names[(UnityEngine.Random.Range(minIndex, maxIndex) + 1) % names.Length];
+                    answer = names[(UnityEngine.Random.Range(minIndex, maxIndex))];
                     return new Tuple<Field, string>(Field.Name, answer);
                 }
             case Field.LastName:
                 {
                     int maxIndex = (int)(lastNames.Length * difficultyMultiplier(_currentTurn)); //set max difficulty
                     int minIndex = (int)(lastNames.Length * minDifficultyMultiplier(_currentTurn)); //set min difficulty
-                    answer = lastNames[(UnityEngine.Random.Range(minIndex, maxIndex) + 1) % lastNames.Length];
+                    answer = lastNames[(UnityEngine.Random.Range(minIndex, maxIndex))];
                     return new Tuple<Field, string>(Field.LastName, answer);
                 }
             case Field.Date:

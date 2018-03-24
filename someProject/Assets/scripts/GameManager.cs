@@ -112,6 +112,9 @@ public class GameManager : MonoBehaviour
                 {
                     // Display game over screen with score
                     gameOver = true;
+                    AudioManager.Stop(currentSong);
+                    AudioManager.Stop("slice");
+                    AudioManager.Play("yooo");
                     return;
                 }
 
