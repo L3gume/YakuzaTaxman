@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 	// UI Canvas
 	public Canvas Canvas;
 
+	// Audio Manager
+	public AudioManager audioManager;	
+	
 	// canvas offsets
 	public float xOffset;
 	public float yOffset;
@@ -49,12 +52,10 @@ public class GameManager : MonoBehaviour
 	
 	// Blood splash
 	public GameObject blood;
-
-	public Transform bloodSpawn1;
-	public Transform bloodSpawn2;
-	public Transform bloodSpawn3;
-	public Transform bloodSpawn4;
-	public Transform bloodSpawn5;
+	
+	// Music
+	private string currentSong;
+	
 	// Use this for initialization
 	private void Start ()
 	{
@@ -79,6 +80,8 @@ public class GameManager : MonoBehaviour
 		// Generate first paper
 		GeneratePaper();
 		_currentPaper.GetComponent<RectTransform>().position = paperTargetPosition;	
+		audioManager.Play("easy");
+		currentSong = "easy";
 	}
 	
 	// Update is called once per frame
@@ -100,6 +103,18 @@ public class GameManager : MonoBehaviour
 			if (IsPaperCorrect()) {
 				// Update score
 				_score++;
+                if (_score == 5)
+                {
+                    audioManager.Stop("easy");
+                    audioManager.Play("medium");
+                    currentSong = "medium";
+                }
+                else if (_score == 10)
+                {
+                    audioManager.Stop("medium");
+                    audioManager.Play("hard");
+                    currentSong = "hard";
+                }
 				ScoreText.text = "Score: " + _score;
 			} else { //User submitted a form which was incorrect
 				// Decrement lives by one
@@ -108,18 +123,24 @@ public class GameManager : MonoBehaviour
 				{
 					case 4: 
 						Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
+                        audioManager.Play("slice");
 						break;
 					case 3:
 						Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
+                        audioManager.Play("slice");
 						break;
 					case 2:
 						Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
+                        audioManager.Play("slice");
 						break;
 					case 1:
 						Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
+                        audioManager.Play("slice");
 						break;
 					case 0:
 						Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
+						audioManager.Stop(currentSong);
+						audioManager.Play("yooo");
 						break;
 				}
 				
@@ -195,7 +216,9 @@ public class GameManager : MonoBehaviour
 		{
 			var newField = Instantiate(TextInputPrefab);
 			newField.SetParent(_currentPaper, false);
-			newField.Find("FieldName").GetComponent<Text>().text = tuple.Item1.ToString();
+//			newField.Find("FieldName").gameObject.GetComponent<Text>().text = tuple.Item1.ToString();
+//			newField.gameObject.GetComponentInChildren<Text>().text = tuple.Item1.ToString();
+			newField.gameObject.GetComponent<TextInputFieldScript>().SetFieldName(tuple.Item1);
 		}
 	}
 
@@ -207,7 +230,7 @@ public class GameManager : MonoBehaviour
 			bool fieldCorrect = false;
 			foreach (TextInputFieldScript textInputField in _currentPaper.GetComponentsInChildren<TextInputFieldScript>())
 			{
-				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.name))
+				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.inputField.text))
 				{
 					fieldCorrect = true;
 					break;

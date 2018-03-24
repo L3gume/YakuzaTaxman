@@ -9,7 +9,7 @@ public class PostItGenerator
 {
 
     // difficulty caps depending on number of turns
-    public int maxDifficulty = 100;
+    public int maxDifficulty = 10;
 
     // fields
     public enum Field
@@ -125,13 +125,13 @@ public class PostItGenerator
     //difficulty caps at maxDifficulty
     private float difficultyMultiplier(int _currentTurn){
         if (_currentTurn < maxDifficulty)
-            return (float)(_currentTurn / maxDifficulty);
+            return _currentTurn / (float)maxDifficulty;
         else
             return 1.00f;
     }
     //mininimum difficulty 0, 1, or 2 out of 3
     private float minDifficultyMultiplier(int _currentTurn){
         int minRange = (int)(difficultyMultiplier(_currentTurn) * 2.00f); //varies from 0,1 or 2
-        return (float) minRange / 3.00f;
+        return minRange / 3.00f;
     }
 }
