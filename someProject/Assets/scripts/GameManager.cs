@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 	private int _score = 0;
 	
 	// Lives
-	public Image handImage;
+	public Transform handSprite;
 	private int _livesRemaining = 5;
 	
 	// Post it
@@ -88,22 +88,30 @@ public class GameManager : MonoBehaviour
 			// Display game over screen with score
 		}
 		
-		// Check if paper is complete
-		if (IsPaperComplete() && !_animatingPapers)
+		// Check if done button is clicked
+		if (_doneButtonClicked && !_animatingPapers)
 		{
-			// Update score
-			_score++;
+			if (IsPaperCorrect()) {
+				// Update score
+				_score++;
 
-			// Remove old post it
-			Destroy(_currentPostIt.gameObject);
-			
-			// Get new post it
-			GeneratePostIt();
-			
-			// Create new paper
-			GeneratePaper();
+				// Remove old post it
+				Destroy(_currentPostIt.gameObject);
+				
+				// Get new post it
+				GeneratePostIt();
+				
+				// Create new paper
+				GeneratePaper();
 
-			_animatingPapers = true;
+				_animatingPapers = true;
+			} else { //User submitted a form which was incorrect
+				// Decrement lives by one
+				_livesRemaining --;
+
+				//Change the input source image of the hand to remove a finger.
+				handSprite.GetComponent<SpriteRenderer>().sprite.name = "pixelated_hand_" + _livesRemaining + "lives.png";
+			}
 		}
 		
 		// If animating incoming and leaving papers
@@ -165,15 +173,26 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	// Checks whether the player has completed the needed input for the paper
-	private bool IsPaperComplete()
+	// Checks whether the player has correctly completed each input for the paper
+	private bool IsPaperCorrect()
 	{
-		if (_doneButtonClicked)
+		foreach (Tuple<PostItGenerator.Field, string> tuple in _currentPostItValues)
 		{
-			return true;
+			bool fieldCorrect = false;
+			foreach (TextInputFieldScript textInputField in _currentPaper.GetComponentsInChildren<TextInputFieldScript>())
+			{
+				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.name))
+				{
+					fieldCorrect = true;
+					break;
+				}
+			}
+			if (!fieldCorrect)
+			{
+				return false;
+			}
 		}
-		
-		return false;
+		return true;
 	}
 
 	private void DoneButtonOnClick()
