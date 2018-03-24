@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
 				_livesRemaining--;
 
 				//Change the input source image of the hand to remove a finger.
-				handSprite.GetComponent<SpriteRenderer>().sprite.name = "pixelated_hand_" + _livesRemaining + "lives.png";
+				handSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives.png");
 			}
 			
 			// Remove old post it
