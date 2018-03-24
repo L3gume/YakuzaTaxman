@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (IsPaperCorrect())
                     {
+                        AudioManager.Play("paper");
                         // Update score
                         _score++;
                         if (_score == 5)
@@ -291,25 +292,31 @@ public class GameManager : MonoBehaviour
         // Spawn paper above the view (to move it in later)
         _currentPaper.GetComponent<RectTransform>().position = _paperSpawnPosition;
 
-        if (UnityEngine.Random.Range(0, 2) == 0) //Random chance of having japanese text before post its
+        if (UnityEngine.Random.Range(0, 1) == 0) //Random chance of having japanese text before post its
         {
             numberOfJapaneseFields--;
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
         }
 
-        // Add values from post it to paper
-        foreach (var tuple in _currentPostItValues)
+        //Shuffle the postit after level 15
+        List<Tuple<PostItGenerator.Field, string>> currentPostItValues = _currentPostItValues;
+        if (_score > 14)
         {
-            if (UnityEngine.Random.Range(0, 5) < numberOfJapaneseFields && numberOfJapaneseFields > 0)
+             currentPostItValues = ShuffleList<Tuple<PostItGenerator.Field, string>>(currentPostItValues);
+        }
+        // Add values from post it to paper
+        foreach (var tuple in currentPostItValues)
+        {
+            if (UnityEngine.Random.Range(0, 5) <= numberOfJapaneseFields && numberOfJapaneseFields > 0)
             {
                 numberOfJapaneseFields--;
             
                 var japanText = Instantiate(JapaneseFontTextPrefab);
                 japanText.transform.SetParent(_currentPaper, false);
-                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
             }
             
             var newField = Instantiate(TextInputPrefab);
@@ -323,8 +330,25 @@ public class GameManager : MonoBehaviour
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
         }
+    }
+    
+    //Shuffles the list
+    private List<E> ShuffleList<E>(List<E> inputList)
+    {
+        List<E> randomList = new List<E>();
+
+        System.Random r = new System.Random();
+        int randomIndex = 0;
+        while (inputList.Count > 0)
+        {
+            randomIndex = r.Next(0, inputList.Count); //Choose a random object in the list
+            randomList.Add(inputList[randomIndex]); //add it to the new, random list
+            inputList.RemoveAt(randomIndex); //remove to avoid duplicates
+        }
+
+        return randomList; //return the new random list
     }
 
     // Checks whether the player has correctly completed each input for the paper
