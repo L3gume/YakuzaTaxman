@@ -105,7 +105,7 @@ public class PostItGenerator
                 {
                     int maxIndex = (int)(emails.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
                     int minIndex = (int)(emails.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
-                    answer = emails[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    answer = generateEmail(names[UnityEngine.Random.Range(minIndex, maxIndex)], lastNames[UnityEngine.Random.Range(minIndex, maxIndex)]);
                     return new Tuple<Field, string>(Field.Email, answer);
                 }
             case Field.Income:
