@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	// canvas offsets
 	public float xOffset;
 	public float yOffset;
+	
 	// Timer
 	public Text TimerText;
 	private float _timeLeft = 120.0f;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
 	// Done button
 	public Button DoneButton;
 	private bool _doneButtonClicked = false;
+	private bool gameOver = false;
 	
 	// Blood splash
 	public GameObject blood;
@@ -87,6 +89,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	private void Update ()
 	{
+		if (!gameOver) {
 		// Update timer
 		_timeLeft -= Time.deltaTime;
 		TimerText.text = "Time: " + Mathf.Round(_timeLeft);
@@ -96,71 +99,89 @@ public class GameManager : MonoBehaviour
 		{
 			// Display game over screen with score
 		}
+
+		if (Input.GetKeyDown(KeyCode.Return))
+		{
+			_doneButtonClicked = true;
+		}
 		
 		// Check if done button is clicked
-		if (_doneButtonClicked && !_animatingPapers)
-		{
-			if (IsPaperCorrect()) {
-				// Update score
-				_score++;
-                if (_score == 5)
-                {
-                    audioManager.Stop("easy");
-                    audioManager.Play("medium");
-                    currentSong = "medium";
-                }
-                else if (_score == 10)
-                {
-                    audioManager.Stop("medium");
-                    audioManager.Play("hard");
-                    currentSong = "hard";
-                }
-				ScoreText.text = "Score: " + _score;
-
-				_timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
-			} else { //User submitted a form which was incorrect
-				// Decrement lives by one
-				_livesRemaining--;
-				switch (_livesRemaining)
+			if (_doneButtonClicked && !_animatingPapers)
+			{
+				if (IsPaperCorrect())
 				{
-					case 4: 
-						Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
-                        audioManager.Play("slice");
-						break;
-					case 3:
-						Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
-                        audioManager.Play("slice");
-						break;
-					case 2:
-						Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
-                        audioManager.Play("slice");
-						break;
-					case 1:
-						Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
-                        audioManager.Play("slice");
-						break;
-					case 0:
-						Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
-						audioManager.Stop(currentSong);
-						audioManager.Play("yooo");
-						break;
-				}
-				
-				
-				//Change the input source image of the hand to remove a finger.
-				handSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives");
-			}
-			
-			// Remove old post it
-			Destroy(_currentPostIt.gameObject);
-				
-			// Get new post it
-			GeneratePostIt();
-				
-			// Create new paper
-			GeneratePaper();
+					// Update score
+					_score++;
+					if (_score == 5)
+					{
+						audioManager.Stop("easy");
+						audioManager.Play("medium");
+						currentSong = "medium";
+					}
+					else if (_score == 10)
+					{
+						audioManager.Stop("medium");
+						audioManager.Play("hard");
+						currentSong = "hard";
+					}
 
-			_animatingPapers = true;
+					ScoreText.text = "Score: " + _score;
+
+					_timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
+				}
+				else
+				{
+					//User submitted a form which was incorrect
+					// Decrement lives by one
+					_livesRemaining--;
+					switch (_livesRemaining)
+					{
+						case 4:
+							Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
+							audioManager.Play("slice");
+							break;
+						case 3:
+							Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
+							audioManager.Play("slice");
+							break;
+						case 2:
+							Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
+							audioManager.Play("slice");
+							break;
+						case 1:
+							Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
+							audioManager.Play("slice");
+							break;
+						case 0:
+							Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
+							audioManager.Stop(currentSong);
+							audioManager.Stop("slice");
+							audioManager.Play("yooo");
+							gameOver = true;
+							break;
+					}
+
+
+					//Change the input source image of the hand to remove a finger.
+					handSprite.GetComponent<SpriteRenderer>().sprite =
+						Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives");
+				}
+
+				// Remove old post it
+				Destroy(_currentPostIt.gameObject);
+
+				// Get new post it
+				GeneratePostIt();
+
+				// Create new paper
+				GeneratePaper();
+
+				_animatingPapers = true;
+			}
+			else
+			{
+				// game is over
+			}
 		}
 		
 		// If animating incoming and leaving papers
