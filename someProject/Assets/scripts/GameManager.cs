@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (IsPaperCorrect())
                     {
+                        AudioManager.Play("paper");
                         // Update score
                         _score++;
                         if (_score == 5)
@@ -297,7 +298,7 @@ public class GameManager : MonoBehaviour
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(30, 50));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
         }
 
         //Shuffle the postit after level 15
@@ -315,7 +316,7 @@ public class GameManager : MonoBehaviour
             
                 var japanText = Instantiate(JapaneseFontTextPrefab);
                 japanText.transform.SetParent(_currentPaper, false);
-                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(30, 50));
+                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
             }
             
             var newField = Instantiate(TextInputPrefab);
@@ -329,7 +330,7 @@ public class GameManager : MonoBehaviour
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(30, 50));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
         }
     }
     
