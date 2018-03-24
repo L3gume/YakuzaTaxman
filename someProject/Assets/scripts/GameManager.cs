@@ -291,31 +291,31 @@ public class GameManager : MonoBehaviour
         // Spawn paper above the view (to move it in later)
         _currentPaper.GetComponent<RectTransform>().position = _paperSpawnPosition;
 
-        if (UnityEngine.Random.Range(0, 2) == 0) //Random chance of having japanese text before post its
+        if (UnityEngine.Random.Range(0, 1) == 0) //Random chance of having japanese text before post its
         {
             numberOfJapaneseFields--;
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(50, 200));
         }
 
         //Shuffle the postit after level 15
-        List<Tuple<Field, string>> currentPostItValues = _currentPostItValues;
+        List<Tuple<PostItGenerator.Field, string>> currentPostItValues = _currentPostItValues;
         if (_score > 14)
         {
-             currentPostItValues = ShuffleList<Tuple<Field, string>>(currentPostItValues);
+             currentPostItValues = ShuffleList<Tuple<PostItGenerator.Field, string>>(currentPostItValues);
         }
         // Add values from post it to paper
         foreach (var tuple in currentPostItValues)
         {
-            if (UnityEngine.Random.Range(0, 5) < numberOfJapaneseFields && numberOfJapaneseFields > 0)
+            if (UnityEngine.Random.Range(0, 5) <= numberOfJapaneseFields && numberOfJapaneseFields > 0)
             {
                 numberOfJapaneseFields--;
             
                 var japanText = Instantiate(JapaneseFontTextPrefab);
                 japanText.transform.SetParent(_currentPaper, false);
-                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(50, 200));
             }
             
             var newField = Instantiate(TextInputPrefab);
@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour
             
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(50, 200));
         }
     }
     
