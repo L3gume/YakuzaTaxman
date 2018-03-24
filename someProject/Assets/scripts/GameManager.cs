@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour
 	// Blood splash
 	public GameObject blood;
 
+	public Transform bloodSpawn1;
+	public Transform bloodSpawn2;
+	public Transform bloodSpawn3;
+	public Transform bloodSpawn4;
+	public Transform bloodSpawn5;
 	// Use this for initialization
 	private void Start ()
 	{
@@ -99,9 +104,28 @@ public class GameManager : MonoBehaviour
 			} else { //User submitted a form which was incorrect
 				// Decrement lives by one
 				_livesRemaining--;
-
+				switch (_livesRemaining)
+				{
+					case 4: 
+						Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
+						break;
+					case 3:
+						Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
+						break;
+					case 2:
+						Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
+						break;
+					case 1:
+						Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
+						break;
+					case 0:
+						Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
+						break;
+				}
+				
+				
 				//Change the input source image of the hand to remove a finger.
-				handSprite.GetComponent<SpriteRenderer>().sprite.name = "pixelated_hand_" + _livesRemaining + "lives.png";
+				handSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives");
 			}
 			
 			// Remove old post it
