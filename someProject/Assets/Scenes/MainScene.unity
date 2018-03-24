@@ -241,6 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 968354591}
+  xOffset: 960
+  yOffset: 520
   TimerText: {fileID: 392453652}
   ScoreText: {fileID: 1424589914}
   handImage: {fileID: 0}
