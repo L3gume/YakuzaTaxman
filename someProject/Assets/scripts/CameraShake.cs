@@ -34,7 +34,7 @@ public class CameraShake : MonoBehaviour {
     }
 
 
-    public void DoShake()
+    void DoShake()
     {
         if (shakeAmount > 0)
         {

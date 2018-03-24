@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     
     // Camera Shake
     public CameraShake CameraShake;
-    public float amount = 0.0f;
-    public float duration = 0.0f;
+    public float Amount = 0.0f;
+    public float Duration = 0.0f;
 
     // Canvas offsets
     public float XOffset;
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     // Paper
     public Transform PaperPrefab;
     public Transform TextInputPrefab;
+    public Text JapaneseFontTextPrefab;
     private Transform _currentPaper;
     private Transform _leavingPaper;
     private bool _animatingPapers = false;
@@ -60,14 +61,14 @@ public class GameManager : MonoBehaviour
     // Done button
     public Button DoneButton;
     private bool _doneButtonClicked = false;
-    private bool gameOver = false;
+    private bool _gameOver = false;
     private bool _gameStarted = false;
 
     // Blood splash
-    public GameObject blood;
+    public GameObject Blood;
 
     // Music
-    private string currentSong;
+    private string _currentSong;
 
     public GameObject GameOverMenu;
 
@@ -83,7 +84,7 @@ public class GameManager : MonoBehaviour
         btn.onClick.AddListener(DoneButtonOnClick);
 
         AudioManager.Play("easy");
-        currentSong = "easy";
+        _currentSong = "easy";
         _postItSpawnPosition = new Vector3(-700 + XOffset, -280 + YOffset, 0);
         _paperTargetPosition = new Vector3(630 + XOffset, 60 + YOffset, 0);
         _paperSpawnPosition = new Vector3(630 + XOffset, 1040 + YOffset, 0);
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
         _postItGenerator = new PostItGenerator();
 
         // Generate first paper
-        StartCountDownText.text = "3";
+        StartCountDownText.text = Mathf.Round(_countdown - 1).ToString(CultureInfo.InvariantCulture);
     }
 
     // Update is called once per frame
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         if (_gameStarted) // Game has started
         {
-            if (!gameOver)
+            if (!_gameOver)
             {
                 // Update timer
                 _timeLeft -= Time.deltaTime;
@@ -111,7 +112,7 @@ public class GameManager : MonoBehaviour
                 if (_timeLeft <= 0.0f)
                 {
                     // Display game over screen with score
-                    gameOver = true;
+                    _gameOver = true;
                     return;
                 }
 
@@ -131,13 +132,13 @@ public class GameManager : MonoBehaviour
                         {
                             AudioManager.Stop("easy");
                             AudioManager.Play("medium");
-                            currentSong = "medium";
+                            _currentSong = "medium";
                         }
                         else if (_score == 10)
                         {
                             AudioManager.Stop("medium");
                             AudioManager.Play("hard");
-                            currentSong = "hard";
+                            _currentSong = "hard";
                         }
 
                         ScoreText.text = "Score: " + _score;
@@ -150,32 +151,32 @@ public class GameManager : MonoBehaviour
                         // Decrement lives by one
                         _livesRemaining--;
                         
-                        CameraShake.ShakeCamera(amount, duration);
+                        CameraShake.ShakeCamera(Amount, Duration);
                         
                         switch (_livesRemaining)
                         {
                             case 4:
-                                Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
+                                Instantiate(Blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
                                 AudioManager.Play("slice");
                                 break;
                             case 3:
-                                Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
+                                Instantiate(Blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
                                 AudioManager.Play("slice");
                                 break;
                             case 2:
-                                Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
+                                Instantiate(Blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
                                 AudioManager.Play("slice");
                                 break;
                             case 1:
-                                Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
+                                Instantiate(Blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
                                 AudioManager.Play("slice");
                                 break;
                             case 0:
-                                Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
-                                AudioManager.Stop(currentSong);
+                                Instantiate(Blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
+                                AudioManager.Stop(_currentSong);
                                 AudioManager.Stop("slice");
                                 AudioManager.Play("yooo");
-                                gameOver = true;
+                                _gameOver = true;
                                 break;
                         }
 
@@ -187,7 +188,7 @@ public class GameManager : MonoBehaviour
 
                     // Remove old post it
                     Destroy(_currentPostIt.gameObject);
-                    if (!gameOver)
+                    if (!_gameOver)
                     {
                         // Get new post it
                         GeneratePostIt();
@@ -275,9 +276,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Generates a new paper
-    // TODO: Make tings better
     private void GeneratePaper()
     {
+        var numberOfJapaneseFields = UnityEngine.Random.Range(1, 5);
+        
         _leavingPaper = _currentPaper; // Set the new leaving paper
 
         _currentPaper = Instantiate(PaperPrefab);
@@ -286,14 +288,39 @@ public class GameManager : MonoBehaviour
         // Spawn paper above the view (to move it in later)
         _currentPaper.GetComponent<RectTransform>().position = _paperSpawnPosition;
 
+        if (UnityEngine.Random.Range(0, 2) == 0) //Random chance of having japanese text before post its
+        {
+            numberOfJapaneseFields--;
+            
+            var japanText = Instantiate(JapaneseFontTextPrefab);
+            japanText.transform.SetParent(_currentPaper, false);
+            japanText.text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+        }
+
         // Add values from post it to paper
         foreach (var tuple in _currentPostItValues)
         {
+            if (UnityEngine.Random.Range(0, 5) < numberOfJapaneseFields && numberOfJapaneseFields > 0)
+            {
+                numberOfJapaneseFields--;
+            
+                var japanText = Instantiate(JapaneseFontTextPrefab);
+                japanText.transform.SetParent(_currentPaper, false);
+                japanText.text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
+            }
+            
             var newField = Instantiate(TextInputPrefab);
             newField.SetParent(_currentPaper, false);
-//			newField.Find("FieldName").gameObject.GetComponent<Text>().text = tuple.Item1.ToString();
-//			newField.gameObject.GetComponentInChildren<Text>().text = tuple.Item1.ToString();
             newField.gameObject.GetComponent<TextInputFieldScript>().SetFieldName(tuple.Item1);
+        }
+
+        while (numberOfJapaneseFields > 0)
+        {
+            numberOfJapaneseFields--;
+            
+            var japanText = Instantiate(JapaneseFontTextPrefab);
+            japanText.transform.SetParent(_currentPaper, false);
+            japanText.text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
         }
     }
 
@@ -326,5 +353,18 @@ public class GameManager : MonoBehaviour
     {
         _doneButtonClicked = true;
         DoneButton.enabled = false;
+    }
+
+    private string RandomStringOfLength(int n)
+    {
+        var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
+        Char[] str = new Char[n];
+        
+        for (int i = 0; i < n; i++)
+        {
+            str[i] = allowedChars[UnityEngine.Random.Range(0, allowedChars.Length - 1)];
+        }
+
+        return str.ToString();
     }
 }

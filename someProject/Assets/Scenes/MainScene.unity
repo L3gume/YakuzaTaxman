@@ -367,8 +367,8 @@ MonoBehaviour:
   Canvas: {fileID: 968354591}
   AudioManager: {fileID: 9293408}
   CameraShake: {fileID: 386422473}
-  amount: 0.1
-  duration: 0.2
+  Amount: 0
+  Duration: 0
   XOffset: 960
   YOffset: 510
   StartCountDownText: {fileID: 1528269273}
@@ -383,8 +383,10 @@ MonoBehaviour:
     type: 2}
   TextInputPrefab: {fileID: 224416368019209598, guid: 277a30607541248448b9aeb200fca918,
     type: 2}
+  JapaneseFontTextPrefab: {fileID: 114216895009561476, guid: 81249063a9933494e999545642b87320,
+    type: 2}
   DoneButton: {fileID: 723942389}
-  blood: {fileID: 1040442667802546, guid: 91210e597c9004e8db142f579e1244e9, type: 2}
+  Blood: {fileID: 0}
   GameOverMenu: {fileID: 784408951}
 --- !u!4 &386422471
 Transform:
