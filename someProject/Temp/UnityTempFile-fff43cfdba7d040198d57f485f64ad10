@@ -175,6 +175,7 @@
 -define:UNITY_EDITOR_LINUX
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
+'Assets/scripts/FormScript.cs'
 'Assets/scripts/GameManager.cs'
 'Assets/scripts/IPaperComponent.cs'
 'Assets/scripts/PaperComponent.cs'

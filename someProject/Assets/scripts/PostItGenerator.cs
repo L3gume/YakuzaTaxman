@@ -5,7 +5,7 @@ using System;
 
 using Eppy;
 
-public class PostItGenerator : MonoBehaviour
+public class PostItGenerator
 {
     public enum Field { Name, LastName, Date, Email }
 
@@ -52,6 +52,7 @@ public class PostItGenerator : MonoBehaviour
         // create list of Tuples
         for (int i = 0; i < numberOfTypes; i++){
             Tuple<Field, string> randomField = NewRandomTuple(currentTurn, fields[i]);
+            postIt.Add(randomField);
         }
         return postIt;
     }
@@ -65,7 +66,7 @@ public class PostItGenerator : MonoBehaviour
             case Field.Name:
                 {
                     int maxIndex = (int)(names.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
-                    int minIndex = (int)(name.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
+                    int minIndex = (int)(names.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
                     answer = names[UnityEngine.Random.Range(minIndex, maxIndex)];
                     return new Tuple<Field, string>(Field.Name, answer);
                 }
