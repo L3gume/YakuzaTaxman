@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using Eppy;
@@ -105,6 +106,8 @@ public class GameManager : MonoBehaviour
                 if (_timeLeft <= 0.0f)
                 {
                     // Display game over screen with score
+                    gameOver = true;
+                    return;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
