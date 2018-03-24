@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 Base path: /opt/Unity/Editor/Data
+=======
+Base path: /Applications/Unity/Unity.app/Contents
+>>>>>>> 6688ccb37edcdc50c7c3881821a4de3a744fa5ff
 Cmd: initializeCompiler
