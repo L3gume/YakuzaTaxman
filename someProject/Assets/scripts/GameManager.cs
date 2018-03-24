@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 	private int _score = 0;
 	
 	// Lives
-
+	public Image handImage;
 	private int _livesRemaining = 5;
 	
 	// Post it
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPostIt;
 	private List<Tuple<PostItGenerator.Field, string>> _currentPostItValues;
 	private PostItGenerator _postItGenerator;
+	private Vector3 postItSpawnPosition = new Vector3(-700, -280, 0);
 	
 	// Paper
 	public Transform PaperPrefab;
@@ -35,7 +36,9 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPaper;
 	private Transform _leavingPaper;
 	private bool _animatingPapers = false;
-	
+	private Vector3 paperTargetPosition = new Vector3(630, 40, 0);
+	private Vector3 paperSpawnPosition = new Vector3(630, 1040, 0);
+	private Vector3 paperDespawnPosition = new Vector3(630, -960, 0);
 	
 	// Done button
 	public Button DoneButton;
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
 		
 		// Generate first paper
 		GeneratePaper();
+		_currentPaper.transform.position = new Vector3(796, 56, 0);
 	}
 	
 	// Update is called once per frame
@@ -74,15 +78,19 @@ public class GameManager : MonoBehaviour
 		}
 		
 		// Check if paper is complete
-		if (IsPaperComplete())
+		if (IsPaperComplete() && !_animatingPapers)
 		{
 			// Update score
 			_score++;
 
+			// Remove old post it
+			Destroy(_currentPostIt.gameObject);
+			
 			// Get new post it
+			GeneratePostIt();
 			
 			// Create new paper
-
+			GeneratePaper();
 
 			_animatingPapers = true;
 		}
@@ -91,6 +99,20 @@ public class GameManager : MonoBehaviour
 		if (_animatingPapers)
 		{
 			// Move both papers down until incoming is in correct position, then delete old paper
+			float step = 30.0f * Time.deltaTime;
+			_currentPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_currentPaper.GetComponent<RectTransform>().position, paperTargetPosition, step);
+			_leavingPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_leavingPaper.GetComponent<RectTransform>().position, paperDespawnPosition, step);
+			
+			// At target position
+			if (_currentPaper.GetComponent<RectTransform>().position == paperTargetPosition)
+			{
+				_animatingPapers = false;
+				
+				Destroy(_leavingPaper.gameObject);
+
+				_doneButtonClicked = false;
+				DoneButton.enabled = true;
+			}
 		}
 	}
 
@@ -100,6 +122,7 @@ public class GameManager : MonoBehaviour
 		_currentPostItValues = _postItGenerator.GeneratePostIt(_score); // Get new values
 		_currentPostIt = Instantiate(PostItPrefab); // Create new post it prefab
 		_currentPostIt.SetParent(Canvas.transform);
+		_currentPostIt.GetComponent<RectTransform>().position = postItSpawnPosition;
 		
 		// Add values to post it
 		foreach (var tuple in _currentPostItValues)
@@ -110,10 +133,17 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	// Generates a new paper
+	// TODO: Make tings better
 	private void GeneratePaper()
 	{
+		_leavingPaper = _currentPaper; // Set the new leaving paper
+		
 		_currentPaper = Instantiate(PaperPrefab);
 		_currentPaper.SetParent(Canvas.transform);
+		
+		// Spawn paper above the view (to move it in later)
+		_currentPaper.GetComponent<RectTransform>().position = paperSpawnPosition;
 		
 		// Add values from post it to paper
 		foreach (var tuple in _currentPostItValues)
