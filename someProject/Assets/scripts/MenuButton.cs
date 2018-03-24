@@ -27,10 +27,12 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (SceneManager.GetActiveScene().name == "Menu")
         {
             SceneManager.LoadScene("MainScene");
+            SceneManager.UnloadSceneAsync("Menu");
         }
         else if (SceneManager.GetActiveScene().name == "MainScene")
         {
             SceneManager.LoadScene("Menu");
+            SceneManager.UnloadSceneAsync("MainScene");
         }
     }
 }
