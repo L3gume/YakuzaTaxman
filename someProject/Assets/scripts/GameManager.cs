@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
 	// Done button
 	public Button DoneButton;
 	private bool _doneButtonClicked = false;
+	
+	// Blood splash
+	public GameObject blood;
 
 	// Use this for initialization
 	private void Start ()
@@ -70,9 +73,7 @@ public class GameManager : MonoBehaviour
 		
 		// Generate first paper
 		GeneratePaper();
-		_currentPaper.GetComponent<RectTransform>().position = paperTargetPosition;
-		 
-		
+		_currentPaper.GetComponent<RectTransform>().position = paperTargetPosition;	
 	}
 	
 	// Update is called once per frame
@@ -94,24 +95,25 @@ public class GameManager : MonoBehaviour
 			if (IsPaperCorrect()) {
 				// Update score
 				_score++;
-
-				// Remove old post it
-				Destroy(_currentPostIt.gameObject);
-				
-				// Get new post it
-				GeneratePostIt();
-				
-				// Create new paper
-				GeneratePaper();
-
-				_animatingPapers = true;
+				ScoreText.text = "Score: " + _score;
 			} else { //User submitted a form which was incorrect
 				// Decrement lives by one
-				_livesRemaining --;
+				_livesRemaining--;
 
 				//Change the input source image of the hand to remove a finger.
 				handSprite.GetComponent<SpriteRenderer>().sprite.name = "pixelated_hand_" + _livesRemaining + "lives.png";
 			}
+			
+			// Remove old post it
+			Destroy(_currentPostIt.gameObject);
+				
+			// Get new post it
+			GeneratePostIt();
+				
+			// Create new paper
+			GeneratePaper();
+
+			_animatingPapers = true;
 		}
 		
 		// If animating incoming and leaving papers
