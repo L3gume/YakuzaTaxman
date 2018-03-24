@@ -1,17 +1,4 @@
 {
-<<<<<<< HEAD
-	"process_id" : 4098,
+	"process_id" : 10815,
 	"version" : "2017.3.1f1"
-=======
-<<<<<<< HEAD
-  "process_id": 18739,
-  "version": "2017.3.1f1",
-  "app_path": "/home/daflame/Unity-2017.3.1f1/Editor/Unity",
-  "app_contents_path": "/home/daflame/Unity-2017.3.1f1/Editor/Data",
-  "attach_allowed": "True"
-=======
-	"process_id" : 23198,
-	"version" : "2017.3.1f1"
->>>>>>> 0e6986f6591fadade24048d529f115d666d91a59
->>>>>>> 6688ccb37edcdc50c7c3881821a4de3a744fa5ff
 }
