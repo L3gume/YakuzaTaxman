@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 	private int _score = 0;
 	
 	// Lives
-
+	public Image handImage;
 	private int _livesRemaining = 5;
 	
 	// Post it
@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPostIt;
 	private List<Tuple<PostItGenerator.Field, string>> _currentPostItValues;
 	private PostItGenerator _postItGenerator;
+	private Vector2 spawnPostItOffsetMin = new Vector2(49.8324f, 32.1381f);
+	private Vector2 spawnPostItOffsetMax = new Vector2(928.967f, 365.361f);
 	
 	// Paper
 	public Transform PaperPrefab;
@@ -35,7 +37,10 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPaper;
 	private Transform _leavingPaper;
 	private bool _animatingPapers = false;
-	
+	private Vector2 targetPaperOffsetMin = new Vector2(796.115f, 55.79f);
+	private Vector2 targetPaperOffsetMax = new Vector2(33.8950f, 55.79f);
+	private Vector2 spawnPaperOffsetMax = new Vector2(33.8950f, 0.79f);
+	private Vector2 despawnPaperOffsetMax = new Vector2(33.8950f, 110.79f);
 	
 	// Done button
 	public Button DoneButton;
@@ -58,6 +63,7 @@ public class GameManager : MonoBehaviour
 		
 		// Generate first paper
 		GeneratePaper();
+		_currentPaper.transform.position = new Vector3(796, 56, 0);
 	}
 	
 	// Update is called once per frame
@@ -74,15 +80,19 @@ public class GameManager : MonoBehaviour
 		}
 		
 		// Check if paper is complete
-		if (IsPaperComplete())
+		if (IsPaperComplete() && !_animatingPapers)
 		{
 			// Update score
 			_score++;
 
+			// Remove old post it
+			Destroy(_currentPostIt.gameObject);
+			
 			// Get new post it
+			GeneratePostIt();
 			
 			// Create new paper
-
+			GeneratePaper();
 
 			_animatingPapers = true;
 		}
@@ -91,6 +101,20 @@ public class GameManager : MonoBehaviour
 		if (_animatingPapers)
 		{
 			// Move both papers down until incoming is in correct position, then delete old paper
+			float step = 30.0f * Time.deltaTime;
+			_currentPaper.GetComponent<RectTransform>().offsetMax = Vector2.MoveTowards(_currentPaper.GetComponent<RectTransform>().offsetMax, targetPaperOffsetMax, step);
+			_leavingPaper.GetComponent<RectTransform>().offsetMax = Vector2.MoveTowards(_leavingPaper.GetComponent<RectTransform>().offsetMax, despawnPaperOffsetMax, step);
+			
+			// At target position
+			if (_currentPaper.GetComponent<RectTransform>().offsetMax == targetPaperOffsetMax)
+			{
+				_animatingPapers = false;
+				
+				Destroy(_leavingPaper.gameObject);
+
+				_doneButtonClicked = false;
+				DoneButton.enabled = true;
+			}
 		}
 	}
 
@@ -110,10 +134,18 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	// Generates a new paper
+	// TODO: Make tings better
 	private void GeneratePaper()
 	{
+		_leavingPaper = _currentPaper; // Set the new leaving paper
+		
 		_currentPaper = Instantiate(PaperPrefab);
 		_currentPaper.SetParent(Canvas.transform);
+		
+		// Spawn paper above the view (to move it in later)
+		_currentPaper.GetComponent<RectTransform>().offsetMin = targetPaperOffsetMin;
+		_currentPaper.GetComponent<RectTransform>().offsetMax = spawnPaperOffsetMax;
 		
 		// Add values from post it to paper
 		foreach (var tuple in _currentPostItValues)
