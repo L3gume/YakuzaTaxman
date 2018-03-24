@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.AI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,30 +9,43 @@ public class TextInputFieldScript : MonoBehaviour, IPaperComponent
     public InputField inputField;
 
     public Text fieldName;
-
-    public float mfX;
-
-    public float mfY;
-
+    
     private RectTransform inputTransform;
+
+    public PostItGenerator.Field field;
+    
+    public string name;
 
     // Use this for initialization
     void Start()
     {
         Debug.Assert(inputField != null);
         Debug.Assert(fieldName != null);
-
-        inputTransform = inputField.GetComponent<RectTransform>();
-        Debug.Assert(inputTransform != null);
-        mfX = inputTransform.localPosition.x - inputTransform.localScale.x / 2.0f;
-        mfY = inputTransform.localPosition.y - inputTransform.localScale.y / 2.0f;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown("space"))
+        name = fieldName.text;
+        var newName = "NO_NAME";
+        
+        // Check for the selected type
+        switch (field)
         {
-            rescale(inputTransform.sizeDelta.x + 30.0f, inputTransform.sizeDelta.y);
+            case PostItGenerator.Field.DATE:
+                newName = PostItGenerator.Field.DATE.ToString(); break;
+            case PostItGenerator.Field.LASTNAME:
+                newName = PostItGenerator.Field.LASTNAME.ToString(); break;
+            case PostItGenerator.Field.NAME:
+                newName = PostItGenerator.Field.NAME.ToString(); break;
+            case PostItGenerator.Field.EMAIL:
+                newName = PostItGenerator.Field.EMAIL.ToString(); break;
+            // TODO: Add more field types here
+        }
+        // If the selected type diverges from the current one, update
+        if (name != newName && newName != "NO_NAME")
+        {
+            name = newName;
+            fieldName.text = name;
         }
     }
 
@@ -41,13 +55,8 @@ public class TextInputFieldScript : MonoBehaviour, IPaperComponent
     }
 
     // Scales the input "line" so it fits the intended length.
-    void rescale(float x, float y)
+    public void Rescale(float x)
     {
-//        Vector2 vScale = inputTransform.localScale;
-//        inputTransform.localScale = new Vector2(x, y);
-//        inputTransform.localPosition = new Vector3(mfX + transform.localScale.x / 2.0f, mfY + transform.localScale.y / 2.0f, 0.0f);
-//        mfX = inputTransform.localPosition.x - inputTransform.localScale.x / 2.0f;
-//        mfY = inputTransform.localPosition.y - inputTransform.localScale.y / 2.0f;
-        inputTransform.sizeDelta = new Vector2(x, y);
+        inputTransform.sizeDelta = new Vector2(x, inputTransform.sizeDelta.y);
     }
 }
