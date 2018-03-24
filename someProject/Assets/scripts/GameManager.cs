@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,19 +11,24 @@ public class GameManager : MonoBehaviour
 	// UI Canvas
 	public Canvas Canvas;
 
-	// canvas offsets
-	public float xOffset;
-	public float yOffset;
+	// Canvas offsets
+	public float XOffset;
+	public float YOffset;
+	
+	// Start countdown
+	public Text StartCountDownText;
+	private float _countdown = 4.0f;
+	
 	// Timer
 	public Text TimerText;
-	private float _timeLeft = 120.0f;
+	private float _timeLeft = 60.0f;
 	
 	// Score
 	public Text ScoreText;
 	private int _score = 0;
 	
 	// Lives
-	public Transform handSprite;
+	public Transform HandSprite;
 	private int _livesRemaining = 5;
 	
 	// Post it
@@ -31,7 +37,7 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPostIt;
 	private List<Tuple<PostItGenerator.Field, string>> _currentPostItValues;
 	private PostItGenerator _postItGenerator;
-	private Vector3 postItSpawnPosition;
+	private Vector3 _postItSpawnPosition;
 	
 	// Paper
 	public Transform PaperPrefab;
@@ -39,13 +45,15 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPaper;
 	private Transform _leavingPaper;
 	private bool _animatingPapers = false;
-	private Vector3 paperTargetPosition;
-	private Vector3 paperSpawnPosition;
-	private Vector3 paperDespawnPosition;
+	private Vector3 _paperTargetPosition;
+	private Vector3 _paperSpawnPosition;
+	private Vector3 _paperDespawnPosition;
 	
 	// Done button
 	public Button DoneButton;
 	private bool _doneButtonClicked = false;
+
+	private bool _gameStarted = false;
 
 	// Use this for initialization
 	private void Start ()
@@ -58,80 +66,109 @@ public class GameManager : MonoBehaviour
 		Button btn = DoneButton.GetComponent<Button>();
 		btn.onClick.AddListener(DoneButtonOnClick);
 		
-		
-		postItSpawnPosition = new Vector3(-700 + xOffset, -280 + yOffset, 0);
-		paperTargetPosition = new Vector3(630 + xOffset, 60 + yOffset, 0);
-		paperSpawnPosition = new Vector3(630 + xOffset, 1040 + yOffset, 0);
-		paperDespawnPosition = new Vector3(630 + xOffset, -960 + yOffset, 0);
-		
-		// Generate first post it
-		_postItGenerator = new PostItGenerator();
-		GeneratePostIt();
-		
-		// Generate first paper
-		GeneratePaper();
-		_currentPaper.GetComponent<RectTransform>().position = paperTargetPosition;	
+		_postItSpawnPosition = new Vector3(-700 + XOffset, -280 + YOffset, 0);
+		_paperTargetPosition = new Vector3(630 + XOffset, 60 + YOffset, 0);
+		_paperSpawnPosition = new Vector3(630 + XOffset, 1040 + YOffset, 0);
+		_paperDespawnPosition = new Vector3(630 + XOffset, -960 + YOffset, 0);
+
+		StartCountDownText.text = 3.ToString();
 	}
 	
 	// Update is called once per frame
 	private void Update ()
 	{
-		// Update timer
-		_timeLeft -= Time.deltaTime;
-		TimerText.text = "Time: " + Mathf.Round(_timeLeft);
-
-		// Check if time has run out
-		if (_timeLeft <= 0.0f)
+		if (_gameStarted) // Game has started
 		{
-			// Display game over screen with score
-		}
-		
-		// Check if done button is clicked
-		if (_doneButtonClicked && !_animatingPapers)
-		{
-			if (IsPaperCorrect()) {
-				// Update score
-				_score++;
-				ScoreText.text = "Score: " + _score;
 
-				_timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
-			} else { //User submitted a form which was incorrect
-				// Decrement lives by one
-				_livesRemaining--;
+			// Update timer
+			_timeLeft -= Time.deltaTime;
+			TimerText.text = "Time: " + Mathf.Round(_timeLeft);
 
-				//Change the input source image of the hand to remove a finger.
-				handSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives.png");
-			}
-			
-			// Remove old post it
-			Destroy(_currentPostIt.gameObject);
-				
-			// Get new post it
-			GeneratePostIt();
-				
-			// Create new paper
-			GeneratePaper();
-
-			_animatingPapers = true;
-		}
-		
-		// If animating incoming and leaving papers
-		if (_animatingPapers)
-		{
-			// Move both papers down until incoming is in correct position, then delete old paper
-			float step = 8000.0f * Time.deltaTime;
-			_currentPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_currentPaper.GetComponent<RectTransform>().position, paperTargetPosition, step);
-			_leavingPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_leavingPaper.GetComponent<RectTransform>().position, paperDespawnPosition, step);
-			
-			// At target position
-			if (_currentPaper.GetComponent<RectTransform>().position == paperTargetPosition)
+			// Check if time has run out
+			if (_timeLeft <= 0.0f)
 			{
-				_animatingPapers = false;
-				
-				Destroy(_leavingPaper.gameObject);
+				// Display game over screen with score
+			}
 
-				_doneButtonClicked = false;
-				DoneButton.enabled = true;
+			// Check if done button is clicked
+			if (_doneButtonClicked && !_animatingPapers)
+			{
+				if (IsPaperCorrect())
+				{
+					// Update score
+					_score++;
+					ScoreText.text = "Score: " + _score;
+
+					_timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
+				}
+				else
+				{
+					//User submitted a form which was incorrect
+					// Decrement lives by one
+					_livesRemaining--;
+
+					//Change the input source image of the hand to remove a finger.
+					HandSprite.GetComponent<SpriteRenderer>().sprite =
+						Resources.Load<Sprite>("images/" + "pixelated_hand_" + _livesRemaining + "lives.png");
+				}
+
+				// Remove old post it
+				Destroy(_currentPostIt.gameObject);
+
+				// Get new post it
+				GeneratePostIt();
+
+				// Create new paper
+				GeneratePaper();
+
+				_animatingPapers = true;
+			}
+
+			// If animating incoming and leaving papers
+			if (_animatingPapers)
+			{
+				// Move both papers down until incoming is in correct position, then delete old paper
+				float step = 8000.0f * Time.deltaTime;
+				_currentPaper.GetComponent<RectTransform>().position =
+					Vector3.MoveTowards(_currentPaper.GetComponent<RectTransform>().position, _paperTargetPosition, step);
+				_leavingPaper.GetComponent<RectTransform>().position =
+					Vector3.MoveTowards(_leavingPaper.GetComponent<RectTransform>().position, _paperDespawnPosition, step);
+
+				// At target position
+				if (_currentPaper.GetComponent<RectTransform>().position == _paperTargetPosition)
+				{
+					_animatingPapers = false;
+
+					Destroy(_leavingPaper.gameObject);
+
+					_doneButtonClicked = false;
+					DoneButton.enabled = true;
+				}
+			}
+		}
+		else // Doing countdown timer
+		{
+			_countdown -= Time.deltaTime;
+
+			if (_countdown > 1.0f)
+			{
+				StartCountDownText.text = Mathf.Round(_countdown - 1).ToString(CultureInfo.InvariantCulture);
+			}
+			else if (_countdown > 0.0f)
+			{
+				StartCountDownText.text = "Start";
+			}
+			else
+			{
+				_gameStarted = true;
+				
+				// Generate first post it
+				_postItGenerator = new PostItGenerator();
+				GeneratePostIt();
+		
+				// Generate first paper
+				GeneratePaper();
+				_currentPaper.GetComponent<RectTransform>().position = _paperTargetPosition;	
 			}
 		}
 	}
@@ -142,7 +179,7 @@ public class GameManager : MonoBehaviour
 		_currentPostItValues = _postItGenerator.GeneratePostIt(_score); // Get new values
 		_currentPostIt = Instantiate(PostItPrefab); // Create new post it prefab
 		_currentPostIt.SetParent(Canvas.transform);
-		_currentPostIt.GetComponent<RectTransform>().position = postItSpawnPosition;
+		_currentPostIt.GetComponent<RectTransform>().position = _postItSpawnPosition;
 		
 		// Add values to post it
 		foreach (var tuple in _currentPostItValues)
@@ -163,7 +200,7 @@ public class GameManager : MonoBehaviour
 		_currentPaper.SetParent(Canvas.transform);
 		
 		// Spawn paper above the view (to move it in later)
-		_currentPaper.GetComponent<RectTransform>().position = paperSpawnPosition;
+		_currentPaper.GetComponent<RectTransform>().position = _paperSpawnPosition;
 		
 		// Add values from post it to paper
 		foreach (var tuple in _currentPostItValues)
