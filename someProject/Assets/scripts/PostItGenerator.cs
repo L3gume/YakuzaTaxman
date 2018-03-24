@@ -7,15 +7,12 @@ using Eppy;
 
 public class PostItGenerator : MonoBehaviour
 {
-<<<<<<< HEAD
-    public enum Field { NAME, LASTNAME, DATE, EMAIL };
-=======
+
     // difficulty caps depending on number of turns
     public int maxDifficulty = 100;
 
     // list of fields
     public enum Field { NAME, LASTNAME, DATE };
->>>>>>> 9c68ce8b245235fed319a355eaac33eb1c659091
 
     public string[] names = { "Eric", "Justin", "Evan", "Michael",
         "Bogdan", "Goku", "Krilin", "Bulma", "Piccolo", "Vegeta", "Majin",
