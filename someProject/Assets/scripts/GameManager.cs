@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
 	
 	// Post it
 	public Transform PostItPrefab;
+	public Transform PostItTextPrefab;
 	private Transform _currentPostIt;
-	private List<Tuple<string, string>> _currentPostItValues;
+	private List<Tuple<PostItGenerator.Field, string>> _currentPostItValues;
+	private PostItGenerator _postItGenerator;
 	
 	// Paper
 	public Transform PaperPrefab;
@@ -49,6 +51,13 @@ public class GameManager : MonoBehaviour
 		// Set done button listener
 		Button btn = DoneButton.GetComponent<Button>();
 		btn.onClick.AddListener(DoneButtonOnClick);
+		
+		// Generate first post it
+		_postItGenerator = new PostItGenerator();
+		GeneratePostIt();
+		
+		// Generate first paper
+		GeneratePaper();
 	}
 	
 	// Update is called once per frame
@@ -82,6 +91,36 @@ public class GameManager : MonoBehaviour
 		if (_animatingPapers)
 		{
 			// Move both papers down until incoming is in correct position, then delete old paper
+		}
+	}
+
+	// Generates new post it
+	private void GeneratePostIt()
+	{
+		_currentPostItValues = _postItGenerator.GeneratePostIt(_score); // Get new values
+		_currentPostIt = Instantiate(PostItPrefab); // Create new post it prefab
+		_currentPostIt.SetParent(Canvas.transform);
+		
+		// Add values to post it
+		foreach (var tuple in _currentPostItValues)
+		{
+			var newField = Instantiate(PostItTextPrefab);
+			newField.SetParent(_currentPostIt, false);
+			newField.GetComponent<Text>().text = tuple.Item1.ToString() + ": " + tuple.Item2;
+		}
+	}
+
+	private void GeneratePaper()
+	{
+		_currentPaper = Instantiate(PaperPrefab);
+		_currentPaper.SetParent(Canvas.transform);
+		
+		// Add values from post it to paper
+		foreach (var tuple in _currentPostItValues)
+		{
+			var newField = Instantiate(TextInputPrefab);
+			newField.SetParent(_currentPaper, false);
+			newField.Find("FieldName").GetComponent<Text>().text = tuple.Item1.ToString();
 		}
 	}
 

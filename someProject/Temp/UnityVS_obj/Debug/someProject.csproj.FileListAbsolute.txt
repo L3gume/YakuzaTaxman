@@ -1,2 +1,0 @@
-/Users/ericvuong/git/McGameJam2018/someProject/Temp/UnityVS_obj/Debug/someProject.csprojResolveAssemblyReference.cache
-/Users/ericvuong/git/McGameJam2018/someProject/Temp/UnityVS_obj/Debug/someProject.csproj.CoreCompileInputs.cache

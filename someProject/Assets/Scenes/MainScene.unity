@@ -145,6 +145,8 @@ MonoBehaviour:
   ScoreText: {fileID: 1424589914}
   PostItPrefab: {fileID: 224681468393694560, guid: 59d71e67431b44c6ca57cc597fa92b5c,
     type: 2}
+  PostItTextPrefab: {fileID: 224275658040584418, guid: 4334aa646b22c45878dc4ef56557c95e,
+    type: 2}
   PaperPrefab: {fileID: 224472210824151376, guid: 4ca60cbe915e740e7b794789534d9744,
     type: 2}
   TextInputPrefab: {fileID: 224416368019209598, guid: 277a30607541248448b9aeb200fca918,

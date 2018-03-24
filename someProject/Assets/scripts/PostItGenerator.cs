@@ -5,12 +5,22 @@ using System;
 
 using Eppy;
 
-public class PostItGenerator : MonoBehaviour
+public class PostItGenerator
 {
-    public enum Field { Name, LastName, Date, Email }
 
     // difficulty caps depending on number of turns
     public int maxDifficulty = 100;
+
+    // fields
+    public enum Field
+    {
+        Name,
+        LastName,
+        Date,
+        Email,
+        Income,
+        TaxDeductable
+    }
 
     public string[] names = { "Eric", "Justin", "Evan", "Michael",
         "Bogdan", "Goku", "Krilin", "Bulma", "Piccolo", "Vegeta", "Majin",
@@ -20,9 +30,17 @@ public class PostItGenerator : MonoBehaviour
     public string[] lastNames = {"Hi", "Ly", "Lee", "Lar", "Poo", "Nail", "Tremblay", "Vuong",
     "Laflamme", "Vacquier", "Dawson", "Vanier", "Dimutru", "Pairon", "Waldipushi", "Dumbledoreia",
         "Prattipatti", "Lllilli", "Applepearbanana", "McGameJam2018"};
-    
-    public string[] dates = { "January 1", "February 6", "December 15", "Septempber 8" };
-    // TODO: deductable, donations, income
+
+    public string[] dates = { "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December" };
+
+    public string[] emails = {"evan@gmail.com", "justin@gmail.com", "michael@gmail.com", "eric@gmail.com", "bogdan@gmail.com", "leo@gmail.com",
+    "mcgamejam@gmail.com", "elieharfouche@gmail.com", "bananapearapple@gmail.com", "sushimaster@gmail.com", "whatsmyname@gmail.com", "imhungryfeedme@gmail.com",
+        "needcaffeine@gmail.com", "eric@gmaii.com", "helloonetwofour@gmail.com", "impossibrutoolong@gmaii.com"};
+
+    public int maxIncome = 1000000;
+
+    public int maxTaxDeductable = 1000000;
 
     /// <summary>
     /// Generates the post it.
@@ -52,6 +70,7 @@ public class PostItGenerator : MonoBehaviour
         // create list of Tuples
         for (int i = 0; i < numberOfTypes; i++){
             Tuple<Field, string> randomField = NewRandomTuple(currentTurn, fields[i]);
+            postIt.Add(randomField);
         }
         return postIt;
     }
@@ -65,7 +84,7 @@ public class PostItGenerator : MonoBehaviour
             case Field.Name:
                 {
                     int maxIndex = (int)(names.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
-                    int minIndex = (int)(name.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
+                    int minIndex = (int)(names.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
                     answer = names[UnityEngine.Random.Range(minIndex, maxIndex)];
                     return new Tuple<Field, string>(Field.Name, answer);
                 }
@@ -77,7 +96,28 @@ public class PostItGenerator : MonoBehaviour
                     return new Tuple<Field, string>(Field.LastName, answer);
                 }
             case Field.Date:
-                return new Tuple<Field, string>(Field.Date, dates[UnityEngine.Random.Range(0, dates.Length)]);
+                {
+                    answer = dates[UnityEngine.Random.Range(0, dates.Length)]; //generate random date
+                    answer = answer + " " + UnityEngine.Random.Range(1, 31);
+                    return new Tuple<Field, string>(Field.Date, answer);
+                }
+            case Field.Email:
+                {
+                    int maxIndex = (int)(emails.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
+                    int minIndex = (int)(emails.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
+                    answer = emails[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    return new Tuple<Field, string>(Field.Email, answer);
+                }
+            case Field.Income:
+                {
+                    answer = "" + UnityEngine.Random.Range(0, maxIncome * difficultyMultiplier(_currentTurn));
+                    return new Tuple<Field, string>(Field.Income, answer);
+                }
+            case Field.TaxDeductable:
+                {
+                    answer = "" + UnityEngine.Random.Range(0, maxTaxDeductable * difficultyMultiplier(_currentTurn));
+                    return new Tuple<Field, string>(Field.TaxDeductable, answer);
+                }
         }
         return null;
     }
@@ -89,7 +129,7 @@ public class PostItGenerator : MonoBehaviour
         else
             return 1.00f;
     }
-    //mininimum difficulty
+    //mininimum difficulty 0, 1, or 2 out of 3
     private float minDifficultyMultiplier(int _currentTurn){
         int minRange = (int)(difficultyMultiplier(_currentTurn) * 2.00f); //varies from 0,1 or 2
         return (float) minRange / 3.00f;
