@@ -1,12 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 using Eppy;
 
 public class PostItGenerator : MonoBehaviour
 {
+<<<<<<< HEAD
     public enum Field { NAME, LASTNAME, DATE, EMAIL };
+=======
+    // difficulty caps depending on number of turns
+    public int maxDifficulty = 100;
+
+    // list of fields
+    public enum Field { NAME, LASTNAME, DATE };
+>>>>>>> 9c68ce8b245235fed319a355eaac33eb1c659091
 
     public string[] names = { "Eric", "Justin", "Evan", "Michael",
         "Bogdan", "Goku", "Krilin", "Bulma", "Piccolo", "Vegeta", "Majin",
@@ -18,18 +27,76 @@ public class PostItGenerator : MonoBehaviour
         "Prattipatti", "Lllilli", "Applepearbanana", "McGameJam2018"};
     
     public string[] dates = { "January 1", "February 6", "December 15", "Septempber 8" };
-    // deductable, donations, income
+    // TODO: deductable, donations, income
 
-    public string getRandomType(int currentTurn){
-        return null;
-    }
+    /// <summary>
+    /// Generates the post it.
+    /// </summary>
+    /// <returns>The post it type Tuple.</returns>
+    /// <param name="currentTurn">Current turn of player in int.</param>
+    /// 
     public List<Tuple<Field, string>> GeneratePostIt(int currentTurn){
-        int numberOfTypes = Random.Range(1,System.Enum.GetNames(typeof(Field)).Length);
+        // generate random number of types of field
+        int numberOfTypes = UnityEngine.Random.Range(1,(int)(System.Enum.GetNames(typeof(Field)).Length * difficultyMultiplier(currentTurn)));
 
+        // generate unique set of Fields
+        var fields = new List<Field>();
+
+        // obtain a list of new fields
+        for (int i = 0; i < numberOfTypes; i++){                
+            Array values = Enum.GetValues(typeof(Field));
+            Field randomField = (Field)values.GetValue(UnityEngine.Random.Range(0, numberOfTypes)); //generate new field
+            // checks if field exist already
+            while (fields.Contains(randomField)){
+                randomField = (Field)values.GetValue(UnityEngine.Random.Range(0, numberOfTypes)); //regenerate new field
+            }
+            fields.Add(randomField);
+        }
+
+        var postIt = new List<Tuple<Field, string>>();
+        // create list of Tuples
+        for (int i = 0; i < numberOfTypes; i++){
+            Tuple<Field, string> randomField = NewRandomTuple(currentTurn, fields[i]);
+        }
+        return postIt;
+    }
+
+    //Randome tuple generator
+    private Tuple<Field, string> NewRandomTuple(int _currentTurn, Field _randomField){
+        String answer;
+        switch(_randomField)
+        {
+            //TODO: handle return appropriate string and string difficulty
+            case Field.NAME:
+                {
+                    int maxIndex = (int)(names.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
+                    int minIndex = (int)(name.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
+                    answer = names[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    return new Tuple<Field, string>(Field.NAME, answer);
+                }
+            case Field.LASTNAME:
+                {
+                    int maxIndex = (int)(lastNames.Length * difficultyMultiplier(_currentTurn)); //set max difficulty
+                    int minIndex = (int)(lastNames.Length * minDifficultyMultiplier(_currentTurn)); //set min difficulty
+                    answer = lastNames[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    return new Tuple<Field, string>(Field.LASTNAME, answer);
+                }
+            case Field.DATE:
+                return new Tuple<Field, string>(Field.DATE, dates[UnityEngine.Random.Range(0, dates.Length)]);
+        }
         return null;
     }
 
-    //return post it info, list of tuple
-    //getPostIt(int currentTurn)
-
+    //difficulty caps at maxDifficulty
+    private float difficultyMultiplier(int _currentTurn){
+        if (_currentTurn < maxDifficulty)
+            return (float)(_currentTurn / maxDifficulty);
+        else
+            return 1.00f;
+    }
+    //mininimum difficulty
+    private float minDifficultyMultiplier(int _currentTurn){
+        int minRange = (int)(difficultyMultiplier(_currentTurn) * 2.00f); //varies from 0,1 or 2
+        return (float) minRange / 3.00f;
+    }
 }
