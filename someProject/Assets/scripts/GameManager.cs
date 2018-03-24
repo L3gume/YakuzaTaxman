@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 	// UI Canvas
 	public Canvas Canvas;
 
+	// canvas offsets
+	public float xOffset;
+	public float yOffset;
 	// Timer
 	public Text TimerText;
 	private float _timeLeft = 120.0f;
@@ -19,7 +22,7 @@ public class GameManager : MonoBehaviour
 	private int _score = 0;
 	
 	// Lives
-	public Image handImage;
+	public Transform handSprite;
 	private int _livesRemaining = 5;
 	
 	// Post it
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPostIt;
 	private List<Tuple<PostItGenerator.Field, string>> _currentPostItValues;
 	private PostItGenerator _postItGenerator;
-	private Vector3 postItSpawnPosition = new Vector3(-700, -280, 0);
+	private Vector3 postItSpawnPosition;
 	
 	// Paper
 	public Transform PaperPrefab;
@@ -36,9 +39,9 @@ public class GameManager : MonoBehaviour
 	private Transform _currentPaper;
 	private Transform _leavingPaper;
 	private bool _animatingPapers = false;
-	private Vector3 paperTargetPosition = new Vector3(630, 40, 0);
-	private Vector3 paperSpawnPosition = new Vector3(630, 1040, 0);
-	private Vector3 paperDespawnPosition = new Vector3(630, -960, 0);
+	private Vector3 paperTargetPosition;
+	private Vector3 paperSpawnPosition;
+	private Vector3 paperDespawnPosition;
 	
 	// Done button
 	public Button DoneButton;
@@ -55,13 +58,21 @@ public class GameManager : MonoBehaviour
 		Button btn = DoneButton.GetComponent<Button>();
 		btn.onClick.AddListener(DoneButtonOnClick);
 		
+		
+		postItSpawnPosition = new Vector3(-700 + xOffset, -280 + yOffset, 0);
+		paperTargetPosition = new Vector3(630 + xOffset, 60 + yOffset, 0);
+		paperSpawnPosition = new Vector3(630 + xOffset, 1040 + yOffset, 0);
+		paperDespawnPosition = new Vector3(630 + xOffset, -960 + yOffset, 0);
+		
 		// Generate first post it
 		_postItGenerator = new PostItGenerator();
 		GeneratePostIt();
 		
 		// Generate first paper
 		GeneratePaper();
-		_currentPaper.transform.position = new Vector3(796, 56, 0);
+		_currentPaper.GetComponent<RectTransform>().position = paperTargetPosition;
+		 
+		
 	}
 	
 	// Update is called once per frame
@@ -77,29 +88,37 @@ public class GameManager : MonoBehaviour
 			// Display game over screen with score
 		}
 		
-		// Check if paper is complete
-		if (IsPaperComplete() && !_animatingPapers)
+		// Check if done button is clicked
+		if (_doneButtonClicked && !_animatingPapers)
 		{
-			// Update score
-			_score++;
+			if (IsPaperCorrect()) {
+				// Update score
+				_score++;
 
-			// Remove old post it
-			Destroy(_currentPostIt.gameObject);
-			
-			// Get new post it
-			GeneratePostIt();
-			
-			// Create new paper
-			GeneratePaper();
+				// Remove old post it
+				Destroy(_currentPostIt.gameObject);
+				
+				// Get new post it
+				GeneratePostIt();
+				
+				// Create new paper
+				GeneratePaper();
 
-			_animatingPapers = true;
+				_animatingPapers = true;
+			} else { //User submitted a form which was incorrect
+				// Decrement lives by one
+				_livesRemaining --;
+
+				//Change the input source image of the hand to remove a finger.
+				handSprite.GetComponent<SpriteRenderer>().sprite.name = "pixelated_hand_" + _livesRemaining + "lives.png";
+			}
 		}
 		
 		// If animating incoming and leaving papers
 		if (_animatingPapers)
 		{
 			// Move both papers down until incoming is in correct position, then delete old paper
-			float step = 30.0f * Time.deltaTime;
+			float step = 8000.0f * Time.deltaTime;
 			_currentPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_currentPaper.GetComponent<RectTransform>().position, paperTargetPosition, step);
 			_leavingPaper.GetComponent<RectTransform>().position = Vector3.MoveTowards(_leavingPaper.GetComponent<RectTransform>().position, paperDespawnPosition, step);
 			
@@ -154,15 +173,26 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	// Checks whether the player has completed the needed input for the paper
-	private bool IsPaperComplete()
+	// Checks whether the player has correctly completed each input for the paper
+	private bool IsPaperCorrect()
 	{
-		if (_doneButtonClicked)
+		foreach (Tuple<PostItGenerator.Field, string> tuple in _currentPostItValues)
 		{
-			return true;
+			bool fieldCorrect = false;
+			foreach (TextInputFieldScript textInputField in _currentPaper.GetComponentsInChildren<TextInputFieldScript>())
+			{
+				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.name))
+				{
+					fieldCorrect = true;
+					break;
+				}
+			}
+			if (!fieldCorrect)
+			{
+				return false;
+			}
 		}
-		
-		return false;
+		return true;
 	}
 
 	private void DoneButtonOnClick()
