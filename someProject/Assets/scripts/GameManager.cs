@@ -300,8 +300,14 @@ public class GameManager : MonoBehaviour
             japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
         }
 
+        //Shuffle the postit after level 15
+        List<Tuple<Field, string>> currentPostItValues = _currentPostItValues;
+        if (_score > 14)
+        {
+             currentPostItValues = ShuffleList<Tuple<Field, string>>(currentPostItValues);
+        }
         // Add values from post it to paper
-        foreach (var tuple in ShuffleList<Tuple<Field, string>>(_currentPostItValues))
+        foreach (var tuple in currentPostItValues)
         {
             if (UnityEngine.Random.Range(0, 5) < numberOfJapaneseFields && numberOfJapaneseFields > 0)
             {
