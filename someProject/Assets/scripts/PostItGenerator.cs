@@ -22,14 +22,62 @@ public class PostItGenerator
         TaxDeductable
     }
 
-    public string[] names = { "Eric", "Justin", "Evan", "Michael",
-        "Bogdan", "Goku", "Krilin", "Bulma", "Piccolo", "Vegeta", "Majin",
-        "Goku", "Kuririn", "Videl", "Elie", "Princilia", "Prattipatti", "Bananapearapple",
-        "Parapicca", "Spookybooky", "Marianopolis"};
+    public string[] names = { "Ai", "Aoi", "Ko", "Jun", "Kin", 
+                            "Iku", "Ine", "Kin", "Jin", "Rai", 
+                            "Asa", "Iwa", "Cho", "Aki", "Uta", 
+                            "Ken", "Mon", "Rei", "Ran", "Ima", 
+                            "Kei", "Ito", "Jiro", "Hama", "Koma", 
+                            "Koko", "Mai", "Yuki", "Aiko", "Raku", 
+                            "Yoko", "Nami", "Mura", "Etsu", "Akio", 
+                            "Moto", "Tori", "Hide", "Ishi", "Kiyo", 
+                            "Haya", "Isas", "Tomi", "Taro", "Tane", 
+                            "Tami", "Tama", "Kiwa", "Suzu", "Mine", 
+                            "Kimi", "Kazu", "Haru", "Kinu", "Masa", 
+                            "Suki", "Kuni", "Anzu", "Kane", "Kumi", 
+                            "Koto", "Sugi", "Kane", "Riku", "Kome", 
+                            "Hatsu", "Hisa", "Chizu", "Yukio", "Chiyo", 
+                            "Matsu", "Akemi", "Chika", "Yoshi", "Yoshe", 
+                            "Masao", "Isamu", "Machi", "Yemon", "Yasuo", 
+                            "Imako", "Azami", "Umeko", "Leiko", "Junko", 
+                            "Kyoko", "Kishi", "Shizu", "Hisae", "Ayame", 
+                            "Akira", "Shiro", "Hoshi", "Shina", "Kikue", 
+                            "Kichi", "Setsu", "Seiko", "Sakae", "Akako", 
+                            "Sachi", "Ayako", "Kazuo", "Harue", "Nishi", 
+                            "Natsu", "Etsuko", "Katsu", "Naoko", "Hideyo", 
+                            "Haruko", "Morie", "Mitsu", "Kaoru", "Chiyoko", 
+                            "Hanako", "Hisoka", "Misao", "Mikie", "Mieko", 
+                            "Yukiko", "Tsuhgi", "Tamiko", "Kagami", "Hisano", 
+                            "Tamako", "Takeko", "Suzuki", "Shizue", "Shizko", 
+                            "Sakura", "Saburo", "Namiko", "Nagisa", "Miyuki", 
+                            "Mineko", "Hiroko", "Midori", "Masato", "Chikako", 
+                            "Masago", "Makoto", "Kukiko", "Hiroshi", "Hideaki", 
+                            "Komako", "Kohana", "Kiwako", "Kimiyo", "Kimiko", 
+                            "Kikuko", "Kazuko", "Kameyo", "Kameko", "Takeshi", 
+                            "Akasuki", "Shizuyo", "Setsuko", "Mitsuko", "Akihiko", 
+                            "Michiko", "Matsuko", "Kiyoshi", "Kiyoshi", "Hoshiko", 
+                            "Yasahiro", "Hirohito", "Murasaki", "Masahiro", "Hiromasa", 
+                            "Toshihiro" };
 
-    public string[] lastNames = {"Hi", "Ly", "Lee", "Lar", "Poo", "Nail", "Tremblay", "Vuong",
-    "Laflamme", "Vacquier", "Dawson", "Vanier", "Dimutru", "Pairon", "Waldipushi", "Dumbledoreia",
-        "Prattipatti", "Lllilli", "Applepearbanana", "McGameJam2018"};
+    public string[] lastNames = { "Abe", "Arai", "Ito", "Ota", "Endo", 
+                                "Goto", "Ohno", "Hara", "Imai", "Ando", 
+                                "Aoki", "Ikeda", "Kudo", "Kato", "Kubo", 
+                                "Chiba", "Ishii", "Fujii", "Miura", "Mori", 
+                                "Ono", "Fukuda", "Maeda", "Harada", "Sano", 
+                                "Fujita", "Inoue", "Kondo", "Kimura", "Kaneko", 
+                                "Okada", "Ueno", "Matsuo", "Ishida", "Ogawa", 
+                                "Hirano", "Matsui", "Nomura", "Kojima", "Onishi", 
+                                "Sato", "Nakano", "Otsuka", "Saito", "Fujimoto", 
+                                "Saito", "Ueda", "Wada", "Masuda", "Sakai", 
+                                "Morita", "Murata", "Takeda", "Kikuchi", "Sasaki", 
+                                "Takada", "Hayashi", "Shimizu", "Noguchi", "Sakurai", 
+                                "Iwasaki", "Ishikawa", "Shibata", "Okamoto", "Takagi", 
+                                "Maruyama", "Matsuda", "Uchida", "Fujiwara", "Miyamoto", 
+                                "Miyazaki", "Hasegawa", "Tanaka", "Sugimoto", "Sugawara", 
+                                "Nakayama", "Hashimoto", "Nakagawa", "Nakamura", "Sugiyama", 
+                                "Tamura", "Murakami", "Sakamoto", "Kinoshita", "Yamada", 
+                                "Nakajima", "Matsumoto", "Suzuki", "Takeuchi", "Taniguchi", 
+                                "Yokoyama", "Yamamoto", "Kobayashi", "Nishimura", "Yamazaki", 
+                                "Watanabe", "Yoshida", "Yamashita", "Yamaguchi", "Takahashi" };
 
     public string[] dates = { "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" };
@@ -50,7 +98,7 @@ public class PostItGenerator
     /// 
     public List<Tuple<Field, string>> GeneratePostIt(int currentTurn){
         // generate random number of types of field
-        int numberOfTypes = UnityEngine.Random.Range(1,(int)(System.Enum.GetNames(typeof(Field)).Length * difficultyMultiplier(currentTurn)));
+        int numberOfTypes = UnityEngine.Random.Range(1, ((int)(System.Enum.GetNames(typeof(Field)).Length * difficultyMultiplier(currentTurn) + 1)) % System.Enum.GetNames(typeof(Field)).Length);
 
         // generate unique set of Fields
         var fields = new List<Field>();
@@ -85,14 +133,14 @@ public class PostItGenerator
                 {
                     int maxIndex = (int)(names.Length * difficultyMultiplier(_currentTurn));    //set max difficulty
                     int minIndex = (int)(names.Length * minDifficultyMultiplier(_currentTurn));  //set min difficulty
-                    answer = names[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    answer = names[(UnityEngine.Random.Range(minIndex, maxIndex) + 1) % names.Length];
                     return new Tuple<Field, string>(Field.Name, answer);
                 }
             case Field.LastName:
                 {
                     int maxIndex = (int)(lastNames.Length * difficultyMultiplier(_currentTurn)); //set max difficulty
                     int minIndex = (int)(lastNames.Length * minDifficultyMultiplier(_currentTurn)); //set min difficulty
-                    answer = lastNames[UnityEngine.Random.Range(minIndex, maxIndex)];
+                    answer = lastNames[(UnityEngine.Random.Range(minIndex, maxIndex) + 1) % lastNames.Length];
                     return new Tuple<Field, string>(Field.LastName, answer);
                 }
             case Field.Date:

@@ -39,6 +39,10 @@ public class TextInputFieldScript : MonoBehaviour, IPaperComponent
                 newName = PostItGenerator.Field.Name.ToString(); break;
             case PostItGenerator.Field.Email:
                 newName = PostItGenerator.Field.Email.ToString(); break;
+            case PostItGenerator.Field.Income:
+                newName = PostItGenerator.Field.Income.ToString(); break;
+            case PostItGenerator.Field.TaxDeductable:
+                newName = PostItGenerator.Field.TaxDeductable.ToString(); break;
             // TODO: Add more field types here
         }
         // If the selected type diverges from the current one, update
@@ -58,5 +62,10 @@ public class TextInputFieldScript : MonoBehaviour, IPaperComponent
     public void Rescale(float x)
     {
         inputTransform.sizeDelta = new Vector2(x, inputTransform.sizeDelta.y);
+    }
+
+    public void SetFieldName(PostItGenerator.Field _field)
+    {
+        field = _field;
     }
 }
