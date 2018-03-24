@@ -35,4 +35,9 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             SceneManager.UnloadSceneAsync("MainScene");
         }
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

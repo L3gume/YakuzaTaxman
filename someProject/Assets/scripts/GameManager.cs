@@ -300,8 +300,14 @@ public class GameManager : MonoBehaviour
             japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
         }
 
+        //Shuffle the postit after level 15
+        ListTuple<Field, string>> currentPostItValues = _currentPostItValues;
+        if (_score > 14)
+        {
+             currentPostItValues = ShuffleList<Tuple<Field, string>>(currentPostItValues);
+        }
         // Add values from post it to paper
-        foreach (var tuple in _currentPostItValues)
+        foreach (var tuple in currentPostItValues)
         {
             if (UnityEngine.Random.Range(0, 5) < numberOfJapaneseFields && numberOfJapaneseFields > 0)
             {
@@ -325,6 +331,23 @@ public class GameManager : MonoBehaviour
             japanText.transform.SetParent(_currentPaper, false);
             japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(10, 30));
         }
+    }
+    
+    //Shuffles the list
+    private List<E> ShuffleList<E>(List<E> inputList)
+    {
+        List<E> randomList = new List<E>();
+
+        System.Random r = new System.Random();
+        int randomIndex = 0;
+        while (inputList.Count > 0)
+        {
+            randomIndex = r.Next(0, inputList.Count); //Choose a random object in the list
+            randomList.Add(inputList[randomIndex]); //add it to the new, random list
+            inputList.RemoveAt(randomIndex); //remove to avoid duplicates
+        }
+
+        return randomList; //return the new random list
     }
 
     // Checks whether the player has correctly completed each input for the paper
