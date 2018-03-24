@@ -180,7 +180,7 @@
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
 -define:ENABLE_VSTU
-'Assets/scripts/FormScript.cs'
+'Assets/AudioManager.cs'
 'Assets/scripts/GameManager.cs'
 'Assets/scripts/IPaperComponent.cs'
 'Assets/scripts/MenuButton.cs'
