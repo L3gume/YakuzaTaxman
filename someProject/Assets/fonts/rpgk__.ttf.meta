@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 9b4b3a15d92eb46d0bda9947e69d3c54
+timeCreated: 1521902571
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: R.P.G. KATAKANA
+  fontNames:
+  - R.P.G. KATAKANA
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
