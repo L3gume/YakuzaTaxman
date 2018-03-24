@@ -24,6 +24,12 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void onClick()
     {
+        StartCoroutine(ChangeLevel());
+    }
+    IEnumerator ChangeLevel()
+    {
+        float fadeTime = GameObject.Find("Fading").GetComponent<Fading>().BeginFade(1);
+        yield return new WaitForSeconds(2);
         if (SceneManager.GetActiveScene().name == "Menu")
         {
             SceneManager.LoadScene("MainScene");
