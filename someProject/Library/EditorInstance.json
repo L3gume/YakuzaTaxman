@@ -1,12 +1,7 @@
 {
-<<<<<<< HEAD
-	"process_id" : 21417,
-	"version" : "2017.3.1f1"
-=======
   "process_id": 13120,
   "version": "2017.3.1f1",
   "app_path": "/home/daflame/Unity-2017.3.1f1/Editor/Unity",
   "app_contents_path": "/home/daflame/Unity-2017.3.1f1/Editor/Data",
   "attach_allowed": "True"
->>>>>>> 49fc9429f4478cda833d824d3a0d4d1ed033ccc4
 }

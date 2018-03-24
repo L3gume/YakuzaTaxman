@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
 			bool fieldCorrect = false;
 			foreach (TextInputFieldScript textInputField in _currentPaper.GetComponentsInChildren<TextInputFieldScript>())
 			{
-				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.name))
+				if (tuple.Item1.Equals(textInputField.field) && tuple.Item2.Equals(textInputField.inputField.text))
 				{
 					fieldCorrect = true;
 					break;
