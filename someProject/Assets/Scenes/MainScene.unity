@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 386422471}
   - component: {fileID: 386422470}
   - component: {fileID: 386422472}
+  - component: {fileID: 386422473}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -365,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Canvas: {fileID: 968354591}
   audioManager: {fileID: 9293408}
+  CameraShake: {fileID: 386422473}
   XOffset: 960
   YOffset: 510
   StartCountDownText: {fileID: 1528269273}
@@ -406,6 +408,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4446df1342384c138457e00f5f295ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &386422473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386422469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a07ba21e7b6c4c75a658120aa45ab61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCam: {fileID: 1714010387}
 --- !u!1 &392453649
 GameObject:
   m_ObjectHideFlags: 0
