@@ -12,7 +12,12 @@ public class GameManager : MonoBehaviour
     public Canvas Canvas;
 
     // Audio Manager
-    public AudioManager audioManager;
+    public AudioManager AudioManager;
+    
+    // Camera Shake
+    public CameraShake CameraShake;
+    public float amount = 0.0f;
+    public float duration = 0.0f;
 
     // Canvas offsets
     public float XOffset;
@@ -77,7 +82,7 @@ public class GameManager : MonoBehaviour
         Button btn = DoneButton.GetComponent<Button>();
         btn.onClick.AddListener(DoneButtonOnClick);
 
-        audioManager.Play("easy");
+        AudioManager.Play("easy");
         currentSong = "easy";
         _postItSpawnPosition = new Vector3(-700 + XOffset, -280 + YOffset, 0);
         _paperTargetPosition = new Vector3(630 + XOffset, 60 + YOffset, 0);
@@ -124,14 +129,14 @@ public class GameManager : MonoBehaviour
                         _score++;
                         if (_score == 5)
                         {
-                            audioManager.Stop("easy");
-                            audioManager.Play("medium");
+                            AudioManager.Stop("easy");
+                            AudioManager.Play("medium");
                             currentSong = "medium";
                         }
                         else if (_score == 10)
                         {
-                            audioManager.Stop("medium");
-                            audioManager.Play("hard");
+                            AudioManager.Stop("medium");
+                            AudioManager.Play("hard");
                             currentSong = "hard";
                         }
 
@@ -144,29 +149,32 @@ public class GameManager : MonoBehaviour
                         //User submitted a form which was incorrect
                         // Decrement lives by one
                         _livesRemaining--;
+                        
+                        CameraShake.ShakeCamera(amount, duration);
+                        
                         switch (_livesRemaining)
                         {
                             case 4:
                                 Instantiate(blood, new Vector3(-4.61f, -4.63f, -100.0f), Quaternion.identity);
-                                audioManager.Play("slice");
+                                AudioManager.Play("slice");
                                 break;
                             case 3:
                                 Instantiate(blood, new Vector3(-3.91f, -3.49f, -100.0f), Quaternion.identity);
-                                audioManager.Play("slice");
+                                AudioManager.Play("slice");
                                 break;
                             case 2:
                                 Instantiate(blood, new Vector3(-3.15f, -2.98f, -100.0f), Quaternion.identity);
-                                audioManager.Play("slice");
+                                AudioManager.Play("slice");
                                 break;
                             case 1:
                                 Instantiate(blood, new Vector3(-2.08f, -2.98f, -100.0f), Quaternion.identity);
-                                audioManager.Play("slice");
+                                AudioManager.Play("slice");
                                 break;
                             case 0:
                                 Instantiate(blood, new Vector3(-0.44f, -4.72f, -100.0f), Quaternion.identity);
-                                audioManager.Stop(currentSong);
-                                audioManager.Stop("slice");
-                                audioManager.Play("yooo");
+                                AudioManager.Stop(currentSong);
+                                AudioManager.Stop("slice");
+                                AudioManager.Play("yooo");
                                 gameOver = true;
                                 break;
                         }
