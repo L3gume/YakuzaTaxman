@@ -365,8 +365,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 968354591}
-  audioManager: {fileID: 9293408}
+  AudioManager: {fileID: 9293408}
   CameraShake: {fileID: 386422473}
+  amount: 0.1
+  duration: 0.2
   XOffset: 960
   YOffset: 510
   StartCountDownText: {fileID: 1528269273}

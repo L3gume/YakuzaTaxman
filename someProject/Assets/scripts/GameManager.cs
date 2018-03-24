@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using Eppy;
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     
     // Camera Shake
     public CameraShake CameraShake;
+    public float amount = 0.0f;
+    public float duration = 0.0f;
 
     // Canvas offsets
     public float XOffset;
@@ -108,6 +111,8 @@ public class GameManager : MonoBehaviour
                 if (_timeLeft <= 0.0f)
                 {
                     // Display game over screen with score
+                    gameOver = true;
+                    return;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -145,7 +150,7 @@ public class GameManager : MonoBehaviour
                         // Decrement lives by one
                         _livesRemaining--;
                         
-                        CameraShake.DoShake();
+                        CameraShake.ShakeCamera(amount, duration);
                         
                         switch (_livesRemaining)
                         {
