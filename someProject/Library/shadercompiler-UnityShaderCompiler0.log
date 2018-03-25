@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-Base path: /opt/Unity/Editor/Data
-=======
-Base path: /home/daflame/Unity-2017.3.1f1/Editor/Data
->>>>>>> 67e494bacf4b16bbd5c5075bd835003b5e530efa
+Base path: /Applications/Unity/Unity.app/Contents
 Cmd: initializeCompiler
