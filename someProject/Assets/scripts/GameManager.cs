@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public float Duration = 0.0f;
 
     // Canvas offsets
+    public Camera _camera;
     public float XOffset;
     public float YOffset;
 
@@ -89,10 +90,17 @@ public class GameManager : MonoBehaviour
 
         AudioManager.Play("easy");
         _currentSong = "easy";
-        _postItSpawnPosition = new Vector3(-700 + XOffset, -280 + YOffset, 0);
-        _paperTargetPosition = new Vector3(630 + XOffset, 60 + YOffset, 0);
-        _paperSpawnPosition = new Vector3(630 + XOffset, 1040 + YOffset, 0);
-        _paperDespawnPosition = new Vector3(630 + XOffset, -960 + YOffset, 0);
+        
+        XOffset = _camera.pixelWidth / 2.0f;
+        YOffset = _camera.pixelHeight / 2.0f;
+        
+        // TODO: make these positions relative to camera size
+        float ratiox = _camera.pixelWidth / 1920.0f;
+        float ratioy = _camera.pixelHeight / 1920.0f;
+        _postItSpawnPosition = new Vector3(-700 * ratiox + XOffset, -280 * ratioy  + YOffset, 0);
+        _paperTargetPosition = new Vector3(630 * ratiox  + XOffset, 60 * ratioy  + YOffset, 0);
+        _paperSpawnPosition = new Vector3(630 * ratiox  + XOffset, 1040 * ratioy  + YOffset, 0);
+        _paperDespawnPosition = new Vector3(630 * ratiox  + XOffset, -960 * ratioy  + YOffset, 0);
 
         // Generate first post it
         _postItGenerator = new PostItGenerator();
@@ -100,6 +108,7 @@ public class GameManager : MonoBehaviour
         // Generate first paper
         StartCountDownText.text = Mathf.Round(_countdown - 1).ToString(CultureInfo.InvariantCulture);
         system = EventSystem.current;
+
     }
 
     // Update is called once per frame
@@ -137,13 +146,13 @@ public class GameManager : MonoBehaviour
                         AudioManager.Play("paper");
                         // Update score
                         _score++;
-                        if (_score == 5)
+                        if (_score == 7)
                         {
                             AudioManager.Stop("easy");
                             AudioManager.Play("medium");
                             _currentSong = "medium";
                         }
-                        else if (_score == 10)
+                        else if (_score == 15)
                         {
                             AudioManager.Stop("medium");
                             AudioManager.Play("hard");
@@ -278,8 +287,11 @@ public class GameManager : MonoBehaviour
         _currentPostItValues = _postItGenerator.GeneratePostIt(_score); // Get new values
         _currentPostIt = Instantiate(PostItPrefab); // Create new post it prefab
         _currentPostIt.SetParent(Canvas.transform);
-        _currentPostIt.GetComponent<RectTransform>().position = _postItSpawnPosition;
 
+        var rectTransform = _currentPostIt.GetComponent<RectTransform>();
+        rectTransform.position = _postItSpawnPosition;
+        rectTransform.localScale /= (1920.0f / _camera.pixelWidth);
+        
         // Add values to post it
         foreach (var tuple in _currentPostItValues)
         {
@@ -300,7 +312,11 @@ public class GameManager : MonoBehaviour
         _currentPaper.SetParent(Canvas.transform);
 
         // Spawn paper above the view (to move it in later)
-        _currentPaper.GetComponent<RectTransform>().position = _paperSpawnPosition;
+        var rectTransform = _currentPaper.GetComponent<RectTransform>();
+        rectTransform.position = _paperSpawnPosition;
+        rectTransform.localScale /= (1920.0f / _camera.pixelWidth);
+        
+        
 
         if (UnityEngine.Random.Range(0, 1) == 0) //Random chance of having japanese text before post its
         {
