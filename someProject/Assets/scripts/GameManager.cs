@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
 
                         ScoreText.text = "Score: " + _score;
 
-                        _timeLeft += 0.0002f * Mathf.Pow(_score, 3) - 0.02f * Mathf.Pow(_score, 2) + 0.7f * _score + 3;
+                        _timeLeft += 10 * (1 - 1 / (1 + Mathf.Exp(-0.1f * (_score - 15))));
                     }
                     else
                     {
