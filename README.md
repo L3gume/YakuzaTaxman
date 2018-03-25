@@ -40,7 +40,7 @@ Evan Laflamme, Justin Tremblay, Michael Vaquier, Eric Vuong
 
 ### Game Sprites:
 
-* *Note: All images were generated in Pixelator: http://pixelatorapp.com/ 
+* Note: All images were generated in Pixelator: http://pixelatorapp.com/ 
 
 - Original Images (found on Google Images):
   - Hand being cut: https://ak7.picdn.net/shutterstock/videos/9108887/thumb/1.jpg?i10c=img.resize(height:160)
