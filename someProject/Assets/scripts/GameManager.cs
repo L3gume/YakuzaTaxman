@@ -200,7 +200,6 @@ public class GameManager : MonoBehaviour
                     {
                         // Get new post it
                         GeneratePostIt();
-                        AudioManager.Play("paper");
 
                         // Create new paper
                         GeneratePaper();
