@@ -8,6 +8,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
+    // Audio Manager
+    public AudioManager AudioManager;
+
     public Text text;
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -28,6 +32,8 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     IEnumerator ChangeLevel()
     {
+        AudioManager.Play("drum");
+
         float fadeTime = GameObject.Find("Fading").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(2);
         if (SceneManager.GetActiveScene().name == "Menu")
