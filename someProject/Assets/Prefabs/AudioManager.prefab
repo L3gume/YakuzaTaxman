@@ -137,25 +137,25 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f79463970fb4440bb9d9830c262d7af7, type: 3}
     volume: 0.75
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: medium
     clip: {fileID: 8300000, guid: 9fcae4a0eeaa94e8b9d06df880f3d5fc, type: 3}
     volume: 0.75
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: hard
     clip: {fileID: 8300000, guid: a9ad0a6914dba4f8bb00a67e95d3f69a, type: 3}
     volume: 0.75
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: menu
     clip: {fileID: 8300000, guid: bfce0add6fdff43e59b39c1c026147b9, type: 3}
     volume: 1
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: slice
     clip: {fileID: 8300000, guid: ba459e7da40ee43bfb631408f733313c, type: 3}

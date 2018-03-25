@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
     private string _currentSong;
 
     public GameObject GameOverMenu;
+    public GameObject GameOverScreen;
     private EventSystem system;
 
     // Use this for initialization
@@ -236,6 +237,11 @@ public class GameManager : MonoBehaviour
             {
                 // Game over
                 GameOverMenu.SetActive(true);
+                GameOverScreen.SetActive(true);
+                if (_currentPaper != null)
+                    Destroy(_currentPaper.gameObject);
+                if (DoneButton != null)
+                    Destroy(DoneButton.gameObject);
             }
         }
         else // Doing countdown timer

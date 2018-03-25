@@ -277,8 +277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 232, y: -133}
-  m_SizeDelta: {x: 86.9, y: 30}
+  m_AnchoredPosition: {x: 849.9895, y: -459.9796}
+  m_SizeDelta: {x: 150.4, y: 64.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &541177913
 MonoBehaviour:
@@ -387,6 +387,8 @@ GameObject:
   - component: {fileID: 605913197}
   - component: {fileID: 605913199}
   - component: {fileID: 605913198}
+  - component: {fileID: 605913201}
+  - component: {fileID: 605913200}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -424,7 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -432,8 +434,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: cec9fb8e2110343beadc14b39879bf21, type: 3}
-    m_FontSize: 13
+    m_Font: {fileID: 12800000, guid: d0645782f686f4143999af532ab312b2, type: 3}
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -451,6 +453,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 605913196}
+--- !u!114 &605913200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 605913196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 1
+--- !u!114 &605913201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 605913196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &730591766
 Prefab:
   m_ObjectHideFlags: 0
@@ -526,8 +556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0038509, y: -6.0851994}
-  m_SizeDelta: {x: 586, y: 317.8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 996, y: 535}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1262520156
 MonoBehaviour:
@@ -550,7 +580,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: cec9fb8e2110343beadc14b39879bf21, type: 3}
-    m_FontSize: 10
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -568,8 +598,8 @@ MonoBehaviour:
     must file the taxes for the Yakuza without error or you risk\nlosing your fingers,
     and worse, your sweet Chihuahua, Juan.\n\nYou start filing their taxes. You spend
     hours on these taxes.\nThey are perfect! As you finish with the last paper, the
-    young\nYakuzaman drops another stack of sheets on your desk. That wasn't\neven
-    your final form!!\n\nNow it is up to you, do you risk your dreams of becoming
+    young\nYakuzaman drops another stack of sheets on your desk.\n\n That wasn't even
+    your final form!!!!!\n\nNow it is up to you, do you risk your dreams of becoming
     a \nprofessional finger picker and humiliate the Yakuza with\nmisfiled taxes,
     or do you do your freaking job and finish\nfiling those damn tax forms. The choice
     is up to you, good luck!\n\nInstructions:\n    - Fill in the tax form using the
@@ -665,7 +695,7 @@ Transform:
   m_GameObject: {fileID: 1429624980}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.064, y: 0.03, z: -1}
-  m_LocalScale: {x: 3.4084985, y: 2.8689694, z: 1}
+  m_LocalScale: {x: 3.7, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -832,7 +862,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734676579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.245, y: -4.433, z: -2}
+  m_LocalPosition: {x: -8.245, y: -4.53, z: -2}
   m_LocalScale: {x: 0.6882717, y: 0.7339791, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
