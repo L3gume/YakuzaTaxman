@@ -346,7 +346,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        numberOfJapaneseFields = UnityEngine.Random.Range(8, 13);
+        numberOfJapaneseFields = UnityEngine.Random.Range(14, 20);
         while (numberOfJapaneseFields > 0)
         {
             numberOfJapaneseFields--;
