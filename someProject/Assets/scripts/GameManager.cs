@@ -5,6 +5,8 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using Eppy;
+using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     // Audio Manager
     public AudioManager AudioManager;
-    
+
     // Camera Shake
     public CameraShake CameraShake;
     public float Amount = 0.0f;
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
     private string _currentSong;
 
     public GameObject GameOverMenu;
+    private EventSystem system;
 
     // Use this for initialization
     private void Start()
@@ -95,6 +98,7 @@ public class GameManager : MonoBehaviour
 
         // Generate first paper
         StartCountDownText.text = Mathf.Round(_countdown - 1).ToString(CultureInfo.InvariantCulture);
+        system = EventSystem.current;
     }
 
     // Update is called once per frame
@@ -154,9 +158,9 @@ public class GameManager : MonoBehaviour
                         //User submitted a form which was incorrect
                         // Decrement lives by one
                         _livesRemaining--;
-                        
+
                         CameraShake.ShakeCamera(Amount, Duration);
-                        
+
                         switch (_livesRemaining)
                         {
                             case 4:
@@ -283,7 +287,7 @@ public class GameManager : MonoBehaviour
     private void GeneratePaper()
     {
         var numberOfJapaneseFields = UnityEngine.Random.Range(1, 5);
-        
+
         _leavingPaper = _currentPaper; // Set the new leaving paper
 
         _currentPaper = Instantiate(PaperPrefab);
@@ -295,7 +299,7 @@ public class GameManager : MonoBehaviour
         if (UnityEngine.Random.Range(0, 1) == 0) //Random chance of having japanese text before post its
         {
             numberOfJapaneseFields--;
-            
+
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
             japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
@@ -305,35 +309,45 @@ public class GameManager : MonoBehaviour
         List<Tuple<PostItGenerator.Field, string>> currentPostItValues = _currentPostItValues;
         if (_score > 14)
         {
-             currentPostItValues = ShuffleList<Tuple<PostItGenerator.Field, string>>(currentPostItValues);
+            currentPostItValues = ShuffleList<Tuple<PostItGenerator.Field, string>>(currentPostItValues);
         }
+
+        int i = 1;
         // Add values from post it to paper
         foreach (var tuple in currentPostItValues)
         {
             if (UnityEngine.Random.Range(0, 5) <= numberOfJapaneseFields && numberOfJapaneseFields > 0)
             {
                 numberOfJapaneseFields--;
-            
+                
                 var japanText = Instantiate(JapaneseFontTextPrefab);
                 japanText.transform.SetParent(_currentPaper, false);
                 japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
             }
-            
+
             var newField = Instantiate(TextInputPrefab);
             newField.SetParent(_currentPaper, false);
             newField.gameObject.GetComponent<TextInputFieldScript>().SetFieldName(tuple.Item1);
+
+            if (i-- > 0)
+            {
+                var inField = newField.gameObject.GetComponentInChildren<InputField>();
+                if (inField != null)
+                    inField.OnPointerClick(new PointerEventData(system));
+                system.SetSelectedGameObject(newField.gameObject);
+            }
         }
 
         while (numberOfJapaneseFields > 0)
         {
             numberOfJapaneseFields--;
-            
+
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
             japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
         }
     }
-    
+
     //Shuffles the list
     private List<E> ShuffleList<E>(List<E> inputList)
     {
@@ -386,7 +400,7 @@ public class GameManager : MonoBehaviour
     {
         var allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
         char[] str = new char[n];
-        
+
         for (int i = 0; i < n; i++)
         {
             str[i] = allowedChars[UnityEngine.Random.Range(0, allowedChars.Length - 1)];
