@@ -10,7 +10,7 @@ public class LoreScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		AudioManager.Play("lore");
 	}
 	
 	// Update is called once per frame
@@ -25,6 +25,7 @@ public class LoreScene : MonoBehaviour {
 
 	IEnumerator ChangeLevel()
 	{
+		AudioManager.Stop("lore");
 		AudioManager.Play("drum");
 
 		float fadeTime = GameObject.Find("Fading").GetComponent<Fading>().BeginFade(1);
