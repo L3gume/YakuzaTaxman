@@ -322,7 +322,15 @@ public class GameManager : MonoBehaviour
                 
                 var japanText = Instantiate(JapaneseFontTextPrefab);
                 japanText.transform.SetParent(_currentPaper, false);
-                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
+                
+                if (UnityEngine.Random.Range(0, 4) == 0)
+                {
+                    japanText.GetComponent<Text>().text = "";
+                }
+                else
+                {
+                    japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
+                }
             }
 
             var newField = Instantiate(TextInputPrefab);
@@ -338,13 +346,22 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        numberOfJapaneseFields = UnityEngine.Random.Range(8, 13);
         while (numberOfJapaneseFields > 0)
         {
             numberOfJapaneseFields--;
 
             var japanText = Instantiate(JapaneseFontTextPrefab);
             japanText.transform.SetParent(_currentPaper, false);
-            japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
+
+            if (UnityEngine.Random.Range(0, 4) == 0)
+            {
+                japanText.GetComponent<Text>().text = "";
+            }
+            else
+            {
+                japanText.GetComponent<Text>().text = RandomStringOfLength(UnityEngine.Random.Range(20, 30));
+            }
         }
     }
 
