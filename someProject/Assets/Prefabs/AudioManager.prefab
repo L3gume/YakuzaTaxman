@@ -135,37 +135,49 @@ MonoBehaviour:
   sounds:
   - name: easy
     clip: {fileID: 8300000, guid: f79463970fb4440bb9d9830c262d7af7, type: 3}
-    volume: 1
-    pitch: 0
+    volume: 0.75
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: medium
     clip: {fileID: 8300000, guid: 9fcae4a0eeaa94e8b9d06df880f3d5fc, type: 3}
-    volume: 1
-    pitch: 0
+    volume: 0.75
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: hard
     clip: {fileID: 8300000, guid: a9ad0a6914dba4f8bb00a67e95d3f69a, type: 3}
-    volume: 1
-    pitch: 0
+    volume: 0.75
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: menu
     clip: {fileID: 8300000, guid: bfce0add6fdff43e59b39c1c026147b9, type: 3}
     volume: 1
-    pitch: 0
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: slice
     clip: {fileID: 8300000, guid: ba459e7da40ee43bfb631408f733313c, type: 3}
     volume: 1
-    pitch: 0
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: yooo
     clip: {fileID: 8300000, guid: 196d015d5e4a04221b7e14ef5fb58df3, type: 3}
     volume: 1
-    pitch: 0
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: paper
+    clip: {fileID: 8300000, guid: 80b7d07a576204f789d41d1139d2d2b8, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: drum
+    clip: {fileID: 8300000, guid: 81d76c816b19040aba86ce2df469955a, type: 3}
+    volume: 1
+    pitch: 1
     loop: 0
     source: {fileID: 0}
