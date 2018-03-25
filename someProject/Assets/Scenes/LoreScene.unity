@@ -556,8 +556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 996, y: 535}
+  m_AnchoredPosition: {x: 0, y: 0.0000076294}
+  m_SizeDelta: {x: 1412, y: 774.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1262520156
 MonoBehaviour:
@@ -580,7 +580,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: cec9fb8e2110343beadc14b39879bf21, type: 3}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -600,13 +600,13 @@ MonoBehaviour:
     hours on these taxes.\nThey are perfect! As you finish with the last paper, the
     young\nYakuzaman drops another stack of sheets on your desk.\n\n That wasn't even
     your final form!!!!!\n\nNow it is up to you, do you risk your dreams of becoming
-    a \nprofessional finger picker and humiliate the Yakuza with\nmisfiled taxes,
-    or do you do your freaking job and finish\nfiling those damn tax forms. The choice
-    is up to you, good luck!\n\nInstructions:\n    - Fill in the tax form using the
-    information on the post-it note\n    - Press <Tab> to move onto the next field
-    on the tax form\n    - Press <Shift+Tab> to move to the previous field on the
-    tax form\n    - Press <Enter> to submit the completed tax form\n    - Be careful
-    not to run out of time!"
+    a \nprofessional guitarist and humiliate the Yakuza with\nmisfiled taxes, or do
+    you do your freaking job and finish\nfiling those damn tax forms. The choice is
+    up to you, good luck!\n\nInstructions:\n    - Fill in the tax form using the information
+    on the post-it note\n    - Press <Tab> to move onto the next field on the tax
+    form\n    - Press <Shift+Tab> to move to the previous field on the tax form\n
+    \   - Press <Enter> to submit the completed tax form\n    - Be careful not to
+    run out of time!"
 --- !u!222 &1262520157
 CanvasRenderer:
   m_ObjectHideFlags: 0
