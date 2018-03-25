@@ -30,6 +30,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         StartCoroutine(ChangeLevel());
     }
+    
     IEnumerator ChangeLevel()
     {
         AudioManager.Play("drum");
@@ -38,13 +39,11 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         yield return new WaitForSeconds(2);
         if (SceneManager.GetActiveScene().name == "Menu")
         {
-            SceneManager.LoadScene("MainScene");
-            SceneManager.UnloadSceneAsync("Menu");
+            SceneManager.LoadScene("LoreScene");
         }
         else if (SceneManager.GetActiveScene().name == "MainScene")
         {
             SceneManager.LoadScene("Menu");
-            SceneManager.UnloadSceneAsync("MainScene");
         }
     }
 
